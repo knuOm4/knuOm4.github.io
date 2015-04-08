@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>M.M.</title>
@@ -21,15 +16,62 @@ and open the template in the editor.
         <div class="container-fluid">
             <div class="container" >
                 <h1><strong>Просторово-розподілені динамічні системи. Дискретний випадок</strong></h1>
-                <h2>Загальний вигляд рівняння: L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>+&part;x<sub>2</sub><sup>2</sup>)-&part;t<sup>2</sup></h2>
-                <form class="center-block form-inline text-center">
+                <form class="center-block form-inline text-center">         
+                    <div class="row">
+                        <span>Оберіть задачу:</span>
+                            <br>
+                            <label>
+                                <input type="radio" value="1st" class="task_type" checked="checked" name="task_type" class="col-md-4 col-sm-offset-4"/>
+                                Тестова
+                            </label>
+                            <br>
+                            <label>
+                                <input type="radio" value="2nd" class="task_type" name="task_type" class="col-md-4 col-sm-offset-4" disabled/>
+                                Звичайна
+                            </label>            
+                    </div>
+                    <div class="row">
+                        <span>Оберіть диференціальний оператор</span>
+                        <br>
+                        <label>
+                            <input type="radio" value="1st" class="diff_operator" checked="checked" name="diff_operator" class="col-md-4 col-sm-offset-4"/>
+                            L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup><!--+&part;x<sub>2</sub><sup>2</sup>-->)-&part;t<sup>2</sup>
+                        </label>
+                        <br>
+                        <label>
+                            <input type="radio" value="2nd" class="diff_operator" name="diff_operator" class="col-md-4 col-sm-offset-4" disabled/>
+                            L(&part;s)=1
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">Лівий кінець області:</div>
+                        <input id="left_border" type="number" class="col-md-3">   
+                        <div class="col-md-3">Правий кінець області:</div>
+                        <input id="right_border" type="number" class="col-md-3">                         
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">Границя по часу:</div>
+                        <input id="t_limit" type="number" class="col-md-3">   
+                        <div class="col-md-3">Константа C:</div>
+                        <input id="c_const" type="text" class="col-md-3">                          
+                    </div>     
+                    <div class="row"> 
+                        <div class="col-md-3">Відповідь:</div>
+                        <input id="answer" type="text" class="col-md-3" value="x*x*t*t" disabled="disabled">                          
+                    </div>                      
                     <div class="row">
                         <div class="col-md-3">Оберіть початкову кількість спостережень:</div>
                         <input id="array_number" type="number" min="0" class="col-md-3">                       
                     </div>
-
-                <div id="for_inputs">
-                </div>
+                    <span class="col-md-6" style="font-weight: bold;">
+                        Початкові спостереження(t=0)
+                    </span>
+                    <span class="col-md-6" style="font-weight: bold;">
+                        Крайові спостереження(sєГ)
+                    </span>       
+                    <div id="for_inputs">
+                    </div>
+                    <input type ="submit" name="submit" id="submit" value="Обчислити">
                 </form>
             </div>
         </div>
