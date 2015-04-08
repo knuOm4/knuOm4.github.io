@@ -52,6 +52,7 @@ function insert_new_row(i) {
     $(new_div).append(new_div1, new_input1, new_div2, new_input2, new_input3);
     $(new_div).find('*').addClass('col-md-3');
     $(new_div).find('#' + new_input2.id + ', #' + new_input3.id).toggleClass("col-md-3").addClass('col-md-1');
+    $(new_div).find('input').addClass('form-control');
     $('#for_inputs').append(new_div);
 }
 

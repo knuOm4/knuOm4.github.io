@@ -18,10 +18,18 @@ html{
 
 body{
     //margin-top: 0;
-    background: #1f6377;
+    background: url(../img/back.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    //margin-bottom:2000px;
+    //overflow-y: hidden;
 }
 
 .container-fluid{
     //margin-top: 0;
-    background: white;
+    background: rgba(255,255,255,0.7);
+    padding: 50px;
+    border-radius: 50px;
 }
