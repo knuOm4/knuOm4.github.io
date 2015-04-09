@@ -52,12 +52,7 @@ function loading(){
         }
     }
 
-    // for (var i = 0; i < 4; i++) {
-    //     divWrapper.appendChild = divRow;
-    // }
     document.body.className = "loader";
-    console.log(divWrapper);
     document.body.innerHTML = "";
     document.body.appendChild(divWrapper);
-    // document.body.appendChild = divWrapper;
 }
