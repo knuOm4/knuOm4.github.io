@@ -38,3 +38,26 @@ function solver(L, G, u, Yrl, Ypl, S0, sm0, smr, T, y) {
         //TODO: Output data and analysys
     }());
 };
+function loading(){
+    var divWrapper = document.createElement('div'),
+        divRow,
+        divPoint;
+    divWrapper.className = 'loading';
+    for (var j = 0; j < 4; j++) {
+        divRow = divWrapper.appendChild(document.createElement("div"));
+        divRow.className = 'row';
+        for (var i = 0; i < 4; i++) {
+            divPoint = divRow.appendChild(document.createElement("div"));
+            divPoint.className = 'point';
+        }
+    }
+
+    // for (var i = 0; i < 4; i++) {
+    //     divWrapper.appendChild = divRow;
+    // }
+    document.body.className = "loader";
+    console.log(divWrapper);
+    document.body.innerHTML = "";
+    document.body.appendChild(divWrapper);
+    // document.body.appendChild = divWrapper;
+}
