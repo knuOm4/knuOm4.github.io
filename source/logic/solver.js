@@ -42,13 +42,13 @@ function loading(){
     var divWrapper = document.createElement('div'),
         divRow,
         divPoint;
-    divWrapper.className = 'loading';
+    divWrapper.className = 'loading-loader';
     for (var j = 0; j < 4; j++) {
         divRow = divWrapper.appendChild(document.createElement("div"));
-        divRow.className = 'row';
+        divRow.className = 'row-loader';
         for (var i = 0; i < 4; i++) {
             divPoint = divRow.appendChild(document.createElement("div"));
-            divPoint.className = 'point';
+            divPoint.className = 'point-loader';
         }
     }
 
