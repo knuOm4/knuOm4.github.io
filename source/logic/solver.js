@@ -1,7 +1,7 @@
 /**
  * moduled function for solving
  * @param  {function} L   function that represents diff operator (returns something)
- * @param  {function} G   Green function that returns double value with one parameter, binded with L
+ * @param  {function} G   Green function that returns double value with one parameter, binded with L, must be carryed, 1 par - s, 2 - sm, 3 - t = 0?
  * @param  {function} u    right side of equation
  * @param  {array} Yrl conditions to t = 0 in S0 Square length - L0
  * @param  {array} Ypl conditions to t = 0..T in Sr Square length - Lr
@@ -15,8 +15,10 @@
 function solver(L, G, u, Yrl, Ypl, S0, sm0, smr, T, y) {
     y = y || function () {};
     return (function () {
-        var B = [],
-            Y = [],
+        var B = [], // 2x2 array with B11 str as M0 col 1, B12 str Mr and col 1, B21 str M0 col 1 and B22 str Mr col 1
+            Y0 = Yrl, //coz r = 1
+            Yr = Ypl, //coz p = 1
+            Y = Y0.concat(Yr),
             By = []
             P2 = [],
             v = [],
@@ -24,9 +26,29 @@ function solver(L, G, u, Yrl, Ypl, S0, sm0, smr, T, y) {
             vr = [],
             u0 = [],
             ur = [],
-            yInfinity = function () {};
-        //TODO: find B from G and sm0 and smr
-        //TODO: find Y from Yrl and Ypl
+            yInfinity = function () {},
+            M0 = sm0.length,
+            Mr = xmr.length,
+            B11 = [],
+            B12 = [],
+            B21 = [],
+            B22 = [],
+
+            i = 0;
+        //Finding B
+        for (; i < M0; i+=1) {
+            B11[i] = G(undefined, sm0[i], 0);
+        }
+        for (i = 0; i < Mr; i+=1) {
+            B12[i] = G(undefined, smr[i], 0);
+        }
+        for (i = 0; i < M0; i+=1) {
+            B21[i] = G(undefined, sm0[i]);
+        }
+        for (i = 0; i < Mr; i+=1) {
+            B22[i] = G(undefined, smr[i]);
+        }
+        //found Y in var
         //TODO: By as integration
         //TODO: P2 same
         //TODO: set v0 vr and v as concatanation to 0 or 1
