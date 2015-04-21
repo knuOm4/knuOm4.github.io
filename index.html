@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>M.M.</title>
+    <script type="text/javascript" src="./source/libs/jQuery/jquery.min.js"></script>
+    <script type="text/javascript" src="./source/logic/Router.js"></script>
+    <script type="text/javascript" src="./source/libs/Pilot/Pilot.js"></script>
+    <script type="text/javascript" src="//jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.3/jsxgraphcore.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./source/logic/loader.css"/>
+    <link rel="stylesheet" type="text/css" href="./source/logic/graph.css"/>
+    <link rel="stylesheet" type="text/css" href="./source/logic/app.css"/>
+    <link rel="stylesheet" type="text/css" href="//jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css">
 </head>
-<body>
-    <script>
-    window.location.replace('HTML_style/index.html')
-    </script>
+
+<body onload="bodyLoader();">
+    <div id="app">
+        <div id="app-index"><a href="/loader">1</a></div>
+        <div id="app-loader"><!--<a href="/graph">2</a>-->
+            <div class="loading-loader">
+                <div class="row-loader">
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                </div>
+                <div class="row-loader">
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                </div>
+                <div class="row-loader">
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                </div>
+                <div class="row-loader">
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                    <div class="point-loader"></div>
+                </div>
+            </div>
+        </div>
+        <div id="app-graph"><a href="#">3</a>
+            <div id="jxgbox" class="jxgbox" style="width:500px; height:400px;">
+        </div>
+    </div>
 </body>
+
 </html>

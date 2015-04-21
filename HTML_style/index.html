@@ -14,9 +14,11 @@
         <script type="text/javascript" src="js/jquery.plaxmove.js"></script>
         <script type="text/javascript" src="js/script.js"></script>
         <script type="text/javascript" src="../source/logic/solver.js"></script>
+        <script type="text/javascript" src="../source/logic/Router.js"></script>
+        <script type="text/javascript" src="../source/libs/Pilot/Pilot.js"></script>
     </head>
-    <body class="text-center">
-        <div class="container-fluid">
+    <body>
+        <!-- <div class="container-fluid">
             <div class="container" >
                 <h1><strong>Просторово-розподілені динамічні системи. Дискретний випадок</strong></h1>
                 <form class="center-block form-inline text-center">         
@@ -38,7 +40,7 @@
                         <br>
                         <label>
                             <input type="radio" value="1st" class="diff_operator form-control" checked="checked" name="diff_operator" class="col-md-4 col-sm-offset-4"/>
-                            L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup><!--+&part;x<sub>2</sub><sup>2</sup>-->)-&part;t<sup>2</sup>
+                            L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup><!--+&part;x<sub>2</sub><sup>2</sup>--><!--)-&part;t<sup>2</sup>
                         </label>
                         <br>
                         <label>
@@ -77,6 +79,11 @@
                     <input type ="submit" class="form-control btn btn-success" name="submit" id="submit" value="Обчислити" onclick = "loading();">
                 </form>
             </div>
+        </div> -->
+        <div id="app">
+            <div id="app-index" style="display: none">...</div>
+            <div id="app-gallery" style="display: none">...</div>
+            <div id="app-artwork" style="display: none">...</div>
         </div>
     </body>
 </html>

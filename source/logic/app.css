@@ -1,0 +1,29 @@
+div#app-graph {
+    display: none;
+}
+div#app-index {
+    display: none;
+}
+div#app-loader {
+    display: none;
+}
+div#app-graph.active {
+    display: block;
+}
+div#app-index.active {
+    display: block;
+}
+div#app-loader.active {
+    display: block;
+}
+/*div {
+    transition: opacity 1s ease-out;
+    opacity: 0; 
+    height: 0;
+    overflow: hidden;
+}
+
+div.active {
+    opacity: 1;
+    height: auto;
+}*/
