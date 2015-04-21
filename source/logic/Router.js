@@ -6,29 +6,29 @@ function bodyLoader () {
 
     // Контроллер для главной страницы
     pages.index = Pilot.View.extend({
-        el: "#app-index",
+        el: "#pt-index",
 
         onRoute: function (evt, req){
             // Метод вызывается при routerstart и routeend
-            document.body.className = "";
-            show("app-index");
+            document.body.className = "default";
+            show("pt-index");
         }
     });
     pages.loader = Pilot.View.extend({
-        el: "#app-loader",
+        el: "#pt-loader",
 
         onRoute: function (evt, req){
             // Метод вызывается при routerstart и routeend
             document.body.className = "loader";
-            show("app-loader");
-            setTimeout(function () {
-                Guide.go("graph", {});
-            }, getRandomInt(3000, 10000));
+            show("pt-loader");
+            // setTimeout(function () {
+            //     Guide.go("graph", {});
+            // }, getRandomInt(3000, 10000));
 
         }
     });
     pages.graph = Pilot.View.extend({
-        el: "#app-graph",
+        el: "#pt-graph",
 
         onRoute: function (evt, req){
             // Метод вызывается при routerstart и routeend
@@ -52,8 +52,8 @@ function bodyLoader () {
             board.create("curve", [x2,y2], {strokeWidth:2});
             board.unsuspendUpdate();
 
-            document.body.className = "";
-            show("app-graph");
+            document.body.className = "default";
+            show("pt-graph");
         }
     });
 
@@ -70,7 +70,7 @@ function bodyLoader () {
 
     Guide = new GuideRouter({
          // Указываем элемент, внутри которого перехватываем клики на ссылках
-         el: "#app",
+         el: "#pt-main",
 
          // Используем HistoryAPI
          useHistory: true
@@ -83,10 +83,11 @@ function bodyLoader () {
 
 // использование Math.round() даст неравномерное распределение!
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function show (s) {
-    document.getElementById("app-graph").className = (s !== "app-graph")? "": "active";
-    document.getElementById("app-loader").className = (s !== "app-loader")? "": "active";
-    document.getElementById("app-index").className = (s !== "app-index")? "": "active";
+    // debugger;
+    // document.getElementById("pt-graph").className = (s !== "pt-graph")? "": "active";
+    // document.getElementById("pt-loader").className = (s !== "pt-loader")? "": "active";
+    // document.getElementById("pt-index").className = (s !== "pt-index")? "": "active";
 }

@@ -3,19 +3,25 @@ html {
 }
 
 body.loader {
-  background: #111;
+  /*background: #111;*/
+  /*transition: all 1s ease-out;*/
   position: relative;
-  width: 6em;
+  /*width: 6em;*/
   height: 100%;
   margin: 0 auto;
+}
+body.default {
+  background: #fff;
+  /*transition: background 1s ease-out;*/
 }
 
 .loading-loader {
   width: 6em;
   height: 5em;
-  position: absolute;
+  position: relative;
   text-align: center;
   top: 40%;
+  left: 50%;
 }
 
 .point-loader {
