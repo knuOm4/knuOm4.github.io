@@ -2,7 +2,7 @@ var PageTransitions = (function() {
 
 	var $main = $( '#pt-main' ),
 		$pages = $main.children( 'div.pt-page' ),
-		$iterate = $( 'button' ),
+		$iterate = {},//$( 'button' ),
 		animcursor = 1,
 		pagesCount = $pages.length,
 		current = 0,
@@ -37,20 +37,21 @@ var PageTransitions = (function() {
 			}
 		} );
 
-		$iterate.on( 'click', function() {
-			if( isAnimating ) {
-				return false;
-			}
-			if( animcursor > 67 ) {
-				animcursor = 1;
-			}
-			nextPage( animcursor );
-			++animcursor;
-		} );
+		// $iterate.on( 'click', function() {
+		// 	if( isAnimating ) {
+		// 		return false;
+		// 	}
+		// 	if( animcursor > 67 ) {
+		// 		animcursor = 1;
+		// 	}
+		// 	nextPage( animcursor );
+		// 	++animcursor;
+		// } );
 
 	}
 
 	function nextPage(options ) {
+		//debugger;
 		var animation = (options.animation) ? options.animation : options;
 
 		if( isAnimating ) {

@@ -1386,7 +1386,7 @@
 
 	// Preset: toggle
 	View.toggleEffect('toggle', function ($el, state){
-		$el.css('display', state ? '' : 'none');
+		//$el.css('display', state ? '' : 'none');
 	});
 
 

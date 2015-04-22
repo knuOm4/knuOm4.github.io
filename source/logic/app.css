@@ -1,0 +1,6 @@
+/*div.pt-page {
+    display: none;
+}*/
+.pt-page-current {
+    display: block;
+}

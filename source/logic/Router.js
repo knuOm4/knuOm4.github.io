@@ -2,7 +2,8 @@ function bodyLoader () {
     // Объект, где будут храниться контроллеры
     var pages = {},
         GuideRouter,
-        Guide;
+        Guide,
+        first = true;
 
     // Контроллер для главной страницы
     pages.index = Pilot.View.extend({
@@ -10,20 +11,25 @@ function bodyLoader () {
 
         onRoute: function (evt, req){
             // Метод вызывается при routerstart и routeend
-            document.body.className = "default";
-            show("pt-index");
+            document.body.className = "";
+            if (!first) {
+                show("pt-index");
+            } else {
+                first = false;
+            }
         }
     });
     pages.loader = Pilot.View.extend({
         el: "#pt-loader",
 
         onRoute: function (evt, req){
+            first = false;
             // Метод вызывается при routerstart и routeend
             document.body.className = "loader";
             show("pt-loader");
-            // setTimeout(function () {
-            //     Guide.go("graph", {});
-            // }, getRandomInt(3000, 10000));
+            setTimeout(function () {
+                Guide.go("graph", {});
+            }, getRandomInt(3000, 10000));
 
         }
     });
@@ -31,6 +37,7 @@ function bodyLoader () {
         el: "#pt-graph",
 
         onRoute: function (evt, req){
+            first = false;
             // Метод вызывается при routerstart и routeend
             var board = JXG.JSXGraph.initBoard("jxgbox", {
                 keepaspectratio: true,
@@ -52,7 +59,7 @@ function bodyLoader () {
             board.create("curve", [x2,y2], {strokeWidth:2});
             board.unsuspendUpdate();
 
-            document.body.className = "default";
+            document.body.className = "";
             show("pt-graph");
         }
     });
@@ -78,7 +85,7 @@ function bodyLoader () {
 
     // Запускаем роутер
     Guide.start();
-    Guide.go("index");
+    // Guide.go("index");
 }
 
 // использование Math.round() даст неравномерное распределение!
@@ -86,8 +93,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function show (s) {
-    // debugger;
-    // document.getElementById("pt-graph").className = (s !== "pt-graph")? "": "active";
-    // document.getElementById("pt-loader").className = (s !== "pt-loader")? "": "active";
-    // document.getElementById("pt-index").className = (s !== "pt-index")? "": "active";
+
+    PageTransitions.nextPage(getRandomInt(1, 67));
 }
