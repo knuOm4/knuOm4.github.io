@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title> - jsFiddle </title>
+  
+  <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.3/jsxgraphcore.js"></script>
+  
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  
+  
+  <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css">
+    
+  
+    
+      <script type='text/javascript' src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+    
+  
+  <style type='text/css'>
+    
+  </style>
+
+
+
+
+<script type='text/javascript'>//<![CDATA[ 
+window.onload=function(){
+var board = JXG.JSXGraph.initBoard('jxgbox', {keepaspectratio: true, boundingbox: [-5, 5, 5, -5], axis:true});
+x = [-4,-3,-2,-1,0,1,2,3,5];
+y = [-3,2,3,-1,0,2,1,4,0];
+board.create('curve',[x,y]);
+
+x1 = [0,1,2,3,5];
+y1 = [0,3,2,5,1];
+board.create('curve',[x1,y1]);
+
+x2 = [0,1,2,3,5];
+y2 = [0,1,0,3,-1];
+board.create('curve',[x2,y2]);
+
+}//]]> 
+
+
+</script>
+
+
+</head>
+<body>
+  <div id='jxgbox' class='jxgbox' style='width:500px; height:400px;'>
+  
+</body>
+
+
+</html>
