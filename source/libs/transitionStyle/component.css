@@ -45,11 +45,13 @@ html, body { height: 100%; }
 /* Text Styles, Colors, Backgrounds */
 
 .pt-page h1 {
-	position: absolute;
+	position: relative;
 	font-weight: 300;
 	font-size: 3.6em;
 	line-height: 1;
 	letter-spacing: 6px;
+	top: 12%;
+	padding: 0 425px;
 	margin: 0;
 	width: 100%;
 	text-align: center;
@@ -74,6 +76,7 @@ html, body { height: 100%; }
 
 .pt-page-1 {
 	background: #0ac2d2;
+	overflow-y: scroll;
 }
 
 .pt-page-2 {
