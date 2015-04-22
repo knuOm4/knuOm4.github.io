@@ -47,21 +47,20 @@ html, body { height: 100%; }
 .pt-page h1 {
 	position: absolute;
 	font-weight: 300;
-	font-size: 4.4em;
+	font-size: 3.6em;
 	line-height: 1;
 	letter-spacing: 6px;
 	margin: 0;
-	top: 12%;
 	width: 100%;
 	text-align: center;
 	text-transform: uppercase;
-	word-spacing: -0.3em;
+	word-spacing: -0.1em;
 }
 
 .pt-page h1 span {
 	font-family: 'Satisfy', serif;
 	font-weight: 400;
-	font-size: 40%;
+	font-size: 75%;
 	text-transform: none;
 	word-spacing: 0;
 	letter-spacing: 0;
