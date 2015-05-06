@@ -26,7 +26,6 @@
     <link rel="stylesheet" type="text/css" href="./source/libs/checkboxStyle/demo.css" />
     <link rel="stylesheet" type="text/css" href="./source/libs/checkboxStyle/component.css" />
     <link rel="stylesheet" type="text/css" href="./source/libs/inputStyle/normalize.css" />
-    <!-- <link rel="stylesheet" type="text/css" href="./source/libs/inputStyle/demo.css" /> -->
     <link rel="stylesheet" type="text/css" href="./source/libs/inputStyle/set2.css" />
     <script src="./source/libs/transitions/modernizr.custom.js"></script>
     <script src="./source/libs/button/snap.svg-min.js"></script>
@@ -38,7 +37,7 @@
     <div id="pt-main" class="pt-perspective">
         <div id="pt-index" class="pt-page pt-page-1">
             <h1>
-                <span>Solver</span>Дискретные наблюдения и моделирующие функции
+                <span>Solver</span>Дискретні спостереження та моделюючі функції
                 <br>
                 <strong>OPN team</strong>
             </h1>
@@ -46,18 +45,18 @@
                 <!-- Top Navigation -->
                 <div id="s1">
                     <div class="subtitle">
-                        <h2>Тип задачи</h2>
+                        <h2>Тип задачі</h2>
                     </div>
                     <section>
                         <form class="ac-custom ac-radio ac-fill" autocomplete="off">
                             <ul>
                                 <li>
                                     <input id="r1" name="r1" type="radio">
-                                    <label for="r1" class="rus">Тестовая задача для проверки работоспособности</label>
+                                    <label for="r1" class="rus">Тестова задача</label>
                                 </li>
                                 <li>
                                     <input id="r2" name="r1" type="radio" disabled="true">
-                                    <label for="r2" disabled="true" class="rus">Нормальный случай для реальных данных</label>
+                                    <label for="r2" disabled="true" class="rus">Реальні данні</label>
                                 </li>
                             </ul>
                         </form>
@@ -69,18 +68,18 @@
                 <!-- class="absent" -->
                 <div id="s2">
                     <div class="subtitle">
-                        <h2>Выберите дифф оператор</h2>
+                        <h2>Оберіть диф оператор</h2>
                     </div>
                     <section>
                         <form class="ac-custom ac-radio ac-fill" autocomplete="off">
                             <ul>
                                 <li>
                                     <input id="r3" name="r3" type="radio" s="1">
-                                    <label for="r3">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>)-&part;t<sup>2</sup></label>
+                                    <label for="r3">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>+&part;x<sub>2</sub><sup>2</sup>)-&part;t<sup>2</sup></label>
                                 </li>
                                 <li>
                                     <input id="r4" name="r3" type="radio" disabled="true" s="2">
-                                    <label for="r4" disabled="true">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>+&part;x<sub>2</sub><sup>2</sup>)-&part;t<sup>2</sup></label>
+                                    <label for="r4" disabled="true">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>)-&part;t<sup>2</sup></label>
                                 </li>
 
                             </ul>
@@ -92,13 +91,13 @@
                 </div>
                 <div id="s3">
                     <div class="subtitle">
-                        <h2>Определите границы</h2>
+                        <h2>Визначте границі</h2>
                     </div>
                     <section class="content bgcolor-4">
                         <span class="input input--kozakura">
                             <input class="input__field input__field--kozakura" type="number" id="input-9" />
                             <label class="input__label input__label--kozakura" for="input-9">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X<sub>min</sub></span>
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X1<sub>min</sub></span>
                             </label>
                             <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                                 <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
@@ -107,7 +106,26 @@
                         <span class="input input--kozakura">
                             <input class="input__field input__field--kozakura" type="number" id="input-10" />
                             <label class="input__label input__label--kozakura" for="input-10">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X<sub>max</sub></span>
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X1<sub>max</sub></span>
+                            </label>
+                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
+                            </svg>
+                        </span>
+                        <br>
+                        <span class="input input--kozakura">
+                            <input class="input__field input__field--kozakura" type="number" id="input-19" />
+                            <label class="input__label input__label--kozakura" for="input-19">
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X2<sub>min</sub></span>
+                            </label>
+                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
+                            </svg>
+                        </span>
+                        <span class="input input--kozakura">
+                            <input class="input__field input__field--kozakura" type="number" id="input-20" />
+                            <label class="input__label input__label--kozakura" for="input-20">
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X2<sub>max</sub></span>
                             </label>
                             <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                                 <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
@@ -122,7 +140,7 @@
                             <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                                 <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
                             </svg>
-                        </span>                        
+                        </span>
                     </section>
                     <div class="hr" onclick="moveTo(3);">
                         <hr class="style-five">
@@ -130,7 +148,7 @@
                 </div>
                 <div id="s4">
                     <div class="subtitle">
-                        <h2>Выберите
+                        <h2>Оберіть
                             <span class="en"> y(s)</span>
                         </h2>
                     </div>
@@ -139,7 +157,11 @@
                             <ul>
                                 <li>
                                     <input id="r5" name="r5" type="radio">
-                                    <label for="r5">x<sup>2</sup>t<sup>2</sup></label>
+                                    <label for="r5">sin(x<sup>2</sup>)t<sup>2</sup></label>
+                                </li>
+                                <li>
+                                    <input id="r6" name="r5" type="radio">
+                                    <label for="r6">sin(x<sub>1</sub>)x<sub>2</sub><sup>2</sup> + t<sup>2</sup></label>
                                 </li>
 
                             </ul>
@@ -151,7 +173,7 @@
                 </div>
                 <div id="s5">
                     <div class="subtitle">
-                        <h2>Дополнительные параметры</h2>
+                        <h2>Додаткові параметри</h2>
                     </div>
                     <section class="content bgcolor-4">
                         <span class="input input--kozakura">
@@ -170,13 +192,13 @@
                 </div>
                 <div id="s6">
                     <div class="subtitle">
-                        <h2>Краевые и начальные условия</h2>
+                        <h2>Граничні і початкові спостереження</h2>
                     </div>
                     <section class="content bgcolor-4">
                         <span class="input input--kozakura">
                             <input class="input__field input__field--kozakura" type="number" id="input-13" />
                             <label class="input__label input__label--kozakura" for="input-13">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Количество">Количество</span>
+                                <span class="input__label-content input__label-content--kozakura" data-content="Количество">Кількість</span>
                             </label>
                             <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                                 <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
@@ -240,13 +262,13 @@
                                 <path d="M286.5,62.5c0,27.891-22.609,50.5-50.5,50.5c-21.5,0-64.355,0-86,0c-21.645,0-64.5,0-86,0c-27.891,0-50.5-22.609-50.5-50.5l0,0C13.5,34.609,36.109,12,64,12c21.5,0,64.355,0,86,0c21.645,0,64.5,0,86,0C263.891,12,286.5,34.609,286.5,62.5L286.5,62.5z" />
                             </svg>
                         </span>
-                        <span class="button__text"><a href="/knuom4.github.io/">Обратно</a></span>
+                        <span class="button__text"><a href="/knuom4.github.io/">Повернутися</a></span>
                     </button>
                 </div>
             </div>
             <div id="wrapper">
                 <div class="info">
-                    <h2>Анализ результата</h2>
+                    <h2>Аналіз результатів</h2>
                 </div>
                 <!-- <div id="jxgbox" class="jxgbox" style="width:500px; height:400px;"> -->
 

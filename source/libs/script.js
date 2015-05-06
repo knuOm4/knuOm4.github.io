@@ -10,11 +10,11 @@ var classes = {
     t_bord: '_t_brd_input_clause'
 };
 
-var beg_clause = "Начальное наблюдение";
+var beg_clause = "Початкове спостереження";
 
-var border_clause = "Краевое наблюдение";
+var border_clause = "Граничне спостереження";
 
-var f_factor = "Правая часть";
+var f_factor = "Права частина";
 
 $(document).ready(function () {
     $('#input-13').change(function (e) {
