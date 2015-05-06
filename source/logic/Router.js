@@ -39,25 +39,25 @@ function bodyLoader () {
         onRoute: function (evt, req){
             first = false;
             // Метод вызывается при routerstart и routeend
-            var board = JXG.JSXGraph.initBoard("jxgbox", {
-                keepaspectratio: true,
-                boundingbox: [-5, 5, 5, -5],
-                axis:true
-            }),
-            x, y, x1, x2, y1, y2;
-            board.suspendUpdate();
-            x = [-4,-3,-2,-1,0,1,2,3,5];
-            y = [-3,2,3,-1,0,2,1,4,0];
-            board.create("curve", [x,y], {strokeWidth:2});
-
-            x1 = [0,1,2,3,5];
-            y1 = [0,3,2,5,1];
-            board.create("curve", [x1,y1], {strokeWidth:2});
-
-            x2 = [0,1,2,3,5];
-            y2 = [0,1,0,3,-1];
-            board.create("curve", [x2,y2], {strokeWidth:2});
-            board.unsuspendUpdate();
+            // var board = JXG.JSXGraph.initBoard("jxgbox", {
+            //     keepaspectratio: true,
+            //     boundingbox: [-5, 5, 5, -5],
+            //     axis:true
+            // }),
+            // x, y, x1, x2, y1, y2;
+            // board.suspendUpdate();
+            // x = [-4,-3,-2,-1,0,1,2,3,5];
+            // y = [-3,2,3,-1,0,2,1,4,0];
+            // board.create("curve", [x,y], {strokeWidth:2});
+            // 
+            // x1 = [0,1,2,3,5];
+            // y1 = [0,3,2,5,1];
+            // board.create("curve", [x1,y1], {strokeWidth:2});
+            // 
+            // x2 = [0,1,2,3,5];
+            // y2 = [0,1,0,3,-1];
+            // board.create("curve", [x2,y2], {strokeWidth:2});
+            // board.unsuspendUpdate();
 
             document.body.className = "";
             show("pt-graph");
