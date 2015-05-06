@@ -10,35 +10,87 @@
  * @param  {array} smr  array of points in edges same length as Lr prob
  * @param  {number} T  max T we looking out
  * @param  {function} y  optional in tested problem
+ * @param  {number} y  constant for diff operator or other arr of constants
  * @return {array}     point -> value + Analys
  */
-function solver(L, G, u, Yrl, Ypl, S0, sm0, smr, T, y) {
-    y = y || function () {};
+function solver(L, G, u, Yrl, Ypl, S0, sm0, smr, T, y, c) {
+    //for defaults look in sheat
+    c = c || 2;
+    y = y || function (s) {
+        s = s || [0, 0, 0];
+        //s[0] = x1
+        //s[1] = x2
+        //s[2] = t
+        return s[0] * s[1] * s[1] + s[2] * s[2];
+    };
+    u = u || function (s) {
+        s = s || [0, 0, 0];
+        //s[0] = x1
+        //s[1] = x2
+        //s[2] = t
+        return c * c * 2 * s[0] - 2;
+    };
+    G = G || function (s) {
+        s = s || [0, 0, 0];
+        //s[0] = x1 - x1`
+        //s[1] = x2 - x2`
+        //s[2] = t - t`
+        var H = ((c * (s[2] - Math.sqrt(s[0] * s[0] + s[1] * s[1]))) > 0) ? 1 : 0,
+            del = 2 * Math.PI * c * (c * c * (s[2] * s[2] - Math.sqrt(s[0] * s[0] + s[1] * s[1])));
+        return (-H ) / del;
+    };
+    Yrl = Yrl || [0.081, 0.162, 0.243];
+    Ypl = Ypl || [1, 2, 5];
+    S0 = S0 || [[0, 1], [0, 1], [0]];
+    sm0 = sm0 || [[0.5, 0.5, -1], [0.5, 0.5, -2], [0.5, 0.5, -3]];
+    smr = smr || [[1.5, 1.5, 0], [0.5, 1.5, 1], [1.5, 0.5, 2]];
+    T = T || 2;
     return (function () {
         var B = [], // 2x2 array with B11 str as M0 col 1, B12 str Mr and col 1, B21 str M0 col 1 and B22 str Mr col 1
             BT = [[],[]],
-            Y0 = Yrl, //coz r = 1
-            Yr = Ypl, //coz p = 1
+            Y0 = [Yrl], //coz r = 1
+            Yr = [Ypl], //coz p = 1
             Y = Y0.concat(Yr),
             By = []
             P2 = [],
             P2plus = [],
-            v = [],
-            v0 = [], // filled with 0
-            vr = [], // filled with 0
-            u0 = [],
-            ur = [],
-            yInfinity = function () {},
             M0 = sm0.length,
             Mr = smr.length,
+            v0 = new Array(M0), // filled with 0
+            vr = new Array(Mr), // filled with 0
+            v = v0.concat(vr),
+            u0 = [],
+            ur = [],
+            um0 = [],
+            umr = [],
+            yInfinity = function (G, u, s, smor) {
+                var sum = 0;
+                for (var i = 0; i < smor.length; i++) {
+                    sum += G([s[0] - smor[0], s[1] - smor[1], s[2] - smor[2]]) * u(smor);
+                }
+                return sum;
+            },
+            yVector = function (G, um, s, sm) {
+                var sum = 0;
+                for (var i = 0; i < sm.length; i++) {
+                    sum += G([s[0] - sm[0], s[1] - sm[1], s[2] - sm[2]]) * um[i];
+                }
+                return sum;
+            },
             B11 = [],
             B12 = [],
             B21 = [],
             B22 = [],
             i = 0, j = 0
             temp = undefined,
-            Sr;//means S without body and from 0 to T
-
+            smor = sm0.concat(smr);
+            Sr = Sr || [[0, 1], [0, 1], [0, T]];;//means S without body and from 0 to T
+        for (i = 0; i < M0; i++) {
+            v0[i] = 0;
+        }
+        for (i = 0; i < Mr; i++) {
+            vr[i] = 0;
+        }
         //Finding B
         for (i = 0; i < M0; i+=1) {
             B11[i] = G(undefined, sm0[i], 0);
@@ -74,17 +126,9 @@ function solver(L, G, u, Yrl, Ypl, S0, sm0, smr, T, y) {
         //Finding u
         u = plusVectorVector(mulMatrVector(P2plus, plusVectorVector(By, v)), v);
         //here we can split u into u0 and ur if we need such
-        //Finding yInfinity
-        yInfinity = function (G, u, sm) {
-            var Sum = 0;
-            for (var i = 0; i < sm.length; i++) {
-                Sum += G(undefined, sm[i]) * u(sm[i]);
-            }
-            return Sum;
+        return function (s) {
+            return yInfinity(G, u, s, smor) + yVector(G, um0, s, sm0) + yVector(G, umr, s, smr);
         };
-        //TODO: find y`(s)
-        //TODO: Check the solving
-        //TODO: Output data and analysys
     }());
 };
 
