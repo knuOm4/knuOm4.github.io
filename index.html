@@ -156,11 +156,11 @@
                         <form class="ac-custom ac-radio ac-fill" autocomplete="off">
                             <ul>
                                 <li>
-                                    <input id="r5" name="r5" type="radio">
+                                    <input id="r5" name="r5" type="radio" onclick="changeOut('./graph/3-d/plot.html');">
                                     <label for="r5">sin(x<sup>2</sup>)t<sup>2</sup></label>
                                 </li>
                                 <li>
-                                    <input id="r6" name="r5" type="radio">
+                                    <input id="r6" name="r5" type="radio" onclick="changeOut('./graph/3-d/Yulia/3.html');">
                                     <label for="r6">sin(x<sub>1</sub>)x<sub>2</sub><sup>2</sup> + t<sup>2</sup></label>
                                 </li>
 
@@ -274,7 +274,7 @@
 
                 </div>
                 <div class="3d" style="position:relative;margin: -100px 650px;">
-                    <iframe src="./graph/3-d/Yulia/3.html" frameborder="0" width="500" height="400"></iframe>
+                    <iframe id="outI" src="./graph/3-d/Yulia/3.html" frameborder="0" width="500" height="400"></iframe>
                 </div>
             </div>
 
@@ -388,6 +388,9 @@
                 $("#pt-index").animate({
                     scrollTop: m.offset().top
                 }, 2000);
+            };
+            function changeOut(str) {
+                $("#outI").attr("src", str);
             };
             $.fn.isOnScreen = function() {
 
