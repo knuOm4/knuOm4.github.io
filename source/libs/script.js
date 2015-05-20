@@ -67,7 +67,6 @@ function delete_row() {
 
 function input(e) {
     var interface = new Interface();
-    return false;
 }
 
 function Interface() {
