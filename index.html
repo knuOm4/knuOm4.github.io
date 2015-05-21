@@ -75,11 +75,11 @@
                             <ul>
                                 <li>
                                     <input id="r3" name="r3" type="radio" s="1">
-                                    <label for="r3">L(&part;s)=c<sup>2</sup>(&part;x<sup>2</sup>)-&part;t<sup>2</sup></label>
+                                    <label for="r3">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>+&part;x<sub>2</sub><sup>2</sup>)-&part;t<sup>2</sup></label>
                                 </li>
                                 <li>
                                     <input id="r4" name="r3" type="radio" disabled="true" s="2">
-                                    <label for="r4" disabled="true">L(&part;s)=c<sup>2</sup>(&part;x<sup>2</sup>)+&part;t<sup>2</sup></label>
+                                    <label for="r4" disabled="true">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>)+&part;t<sup>2</sup></label>
                                 </li>
 
                             </ul>
@@ -97,7 +97,7 @@
                         <span class="input input--kozakura">
                             <input class="input__field input__field--kozakura" type="number" id="input-9" />
                             <label class="input__label input__label--kozakura" for="input-9">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X<sub>min</sub></span>
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X1<sub>min</sub></span>
                             </label>
                             <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                                 <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
@@ -106,7 +106,26 @@
                         <span class="input input--kozakura">
                             <input class="input__field input__field--kozakura" type="number" id="input-10" />
                             <label class="input__label input__label--kozakura" for="input-10">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X<sub>max</sub></span>
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X1<sub>max</sub></span>
+                            </label>
+                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
+                            </svg>
+                        </span>
+                        <br>
+                        <span class="input input--kozakura">
+                            <input class="input__field input__field--kozakura" type="number" id="input-19" />
+                            <label class="input__label input__label--kozakura" for="input-19">
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X2<sub>min</sub></span>
+                            </label>
+                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
+                            </svg>
+                        </span>
+                        <span class="input input--kozakura">
+                            <input class="input__field input__field--kozakura" type="number" id="input-20" />
+                            <label class="input__label input__label--kozakura" for="input-20">
+                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X2<sub>max</sub></span>
                             </label>
                             <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                                 <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
@@ -138,11 +157,11 @@
                             <ul>
                                 <li>
                                     <input id="r5" name="r5" type="radio" onclick="changeOut('./graph/3-d/plot.html');">
-                                    <label for="r5">sin(x<sup>2</sup>)t<sup>2</sup></label>
+                                    <label for="r5">sin(x<sub>1</sub><sup>2</sup>+x<sub>2</sub><sup>2</sup>)t<sup>2</sup></label>
                                 </li>
                                 <li>
                                     <input id="r6" name="r5" type="radio" onclick="changeOut('./graph/3-d/Yulia/3.html');">
-                                    <label for="r6">sin(x)x<sup>2</sup> + t<sup>2</sup></label>
+                                    <label for="r6">sin(x<sub>1</sub>)x<sub>2</sub><sup>2</sup> + t<sup>2</sup></label>
                                 </li>
 
                             </ul>
