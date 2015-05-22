@@ -145,6 +145,18 @@
   }
 
   </script>
+  
+  <script type="text/javascript">
+    $(function(){
+        $(window).on("message", function(e) {
+          var data = e.originalEvent.data;
+
+          if (data) {
+              console.log(data);
+          }
+        });
+      });      
+  </script>
 
   <link href="base.css" rel="stylesheet" type="text/css" media="screen">
 

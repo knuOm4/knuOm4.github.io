@@ -77,12 +77,18 @@ function input(e) {
     var interface = new Interface();
     if(interface.error)
         return false;
+    var answer = get_answer_array(interface.a,interface.b,0,interface.answer);
+    var iframe = $('#outI');
+    iframe[0].contentWindow.postMessage({'answer':answer,'a':interface.a,'b':interface.b}, document.location);    
 }
 
 function Interface() {
     var def_a = 0;
     var def_b = 1;
     var def_T = 1;
+    
+    this.a = {};
+    this.b = {};
     
     this.a.x1 = +$('#input-9').val() || def_a;
     this.b.x1 = +$('#input-10').val() || def_b;
@@ -236,12 +242,61 @@ function get_answer_array(a ,b, t, f){
     var result = [];
     
     var epsilon = 0.1;
+    
+    for(var i = 0; i < n1; i++){
+        result[i] = [];
+    }
+        
     //помним что краевые условия удовлетваряют среднеквадратично:
     for(var i = 0; i < n1; ++i){
         var r = Math.random() * 2 - 1;
-        result[i][0]  = f(a.x + i * step_x, a.y, t) + r * epsilon / 2;
-        result[0][i]  = f(a.x, a.y + i * step_y, t) + r * epsilon / 2;
-        result[i][n1 - 1]  = f(a.x + i * step_x, b.y, t) + r * epsilon / 2;
-        result[n1 - 1][i]  = f(b.x, a.y + i * step_y, t) + r * epsilon / 2;
+        result[i][0]  = f(a.x + i * step_x, a.y, t) + r * epsilon / 4;
+        r = Math.random() * 2 - 1;
+        result[0][i]  = f(a.x, a.y + i * step_y, t) + r * epsilon / 4;
+        r = Math.random() * 2 - 1;
+        result[i][n1 - 1]  = f(a.x + i * step_x, b.y, t) + r * epsilon / 4;
+        r = Math.random() * 2 - 1;
+        result[n1 - 1][i]  = f(b.x, a.y + i * step_y, t) + r * epsilon / 4;
     }
+
+    //в узлах сетки для моделирующих функций передаем точное значение
+    for(var i = (h - 1); i < n1; i =  i + h){
+        for(var j = (h - 1); j < n1; j =  j + h){
+            result[i][j]  = f(a.x + i * step_x, a.y + j * step_y, t);
+        }
+    }   
+
+    //теперь, когда мы выставили точные значения, можно приступать к аппроксиации функции не в узлах 
+    //моделирующих функций
+    for(var i = 0; i < n1; i++){
+        for(var j = 0; j < n1; j++){
+            if(isFinite(result[i][j]))
+                continue;
+            
+            result[i][j]  = f(a.x + i * step_x, a.y + j * step_y, t);
+            result[i][j] = make_fault(result[i][j], i, j, h, epsilon);
+        }
+    } 
+    
+    return result;
+}
+
+
+function make_fault(val, i, j, h, eps){
+    var dest1 = (i + 1) % h;
+    var dest2 = (j + 1) % h;
+    
+    var max_err_to_1_direct = eps / 2;
+    
+    if(dest1 > h / 2){
+        dest1 = h - dest1;
+    }
+    
+    if(dest2 > h / 2){
+        dest2 = h - dest2;
+    }
+    
+    var r = Math.random() * 2 - 1;
+    
+    return val + r * (max_err_to_1_direct*2*dest1/h + max_err_to_1_direct*2*dest2/h);
 }
