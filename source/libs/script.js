@@ -118,11 +118,11 @@ function Interface() {
         }        
     }
     parse_arrays(this);
-    if(!check_fields()){
-        alert('Введіть усі данні!');
-        this.error = true;
-        return false;
-    }
+    // if(!check_fields()){
+    //     alert('Введіть усі данні!');
+    //     this.error = true;
+    //     return false;
+    // }
 }
 
 function check_fields(){
