@@ -77,7 +77,11 @@ function input(e) {
     var interface = new Interface();
     if(interface.error)
         return false;
-    var answer = get_answer_array(interface.a,interface.b,0,interface.answer);
+    var len = interface.T / 0.1 + 1;
+    var answer = new Array();
+    for(var i = 0, t = 0; i < len; ++i, t += 0.1){
+        answer[i] = get_answer_array(interface.a,interface.b,t,interface.answer);
+    }
     var iframe = $('#outI');
     iframe[0].contentWindow.postMessage({'answer':answer,'a':interface.a,'b':interface.b}, document.location);    
 }
@@ -113,7 +117,7 @@ function Interface() {
             return Math.sin(x1*x1+x2*x2) * t * t;
         }
     else if($('#r6')[0].checked){
-        this.answer = function(x,t){
+        this.answer = function(x1, x2, t){
             return Math.sin(x1) * x2 * x2 + t * t;
         }        
     }
@@ -229,19 +233,19 @@ function get_f(x,t){
 
 function get_answer_array(a ,b, t, f){
     //сетка - параметр n из MathBox
-    var n1 = 180;
+    var n1 = 90;
     //Сетка моделирующих функций.
-    var n2 = 8;
+    var n2 = 4;
     //Шаг на 1-й сетке от i-го узла 2-й сетки до (i+1)-го узла 2-й сетки
-    var h = 20;
+    var h = 10;
    
-    var step_x = (b.x - a.x) / (n1 - 1);
+    var step_x = (b.x1 - a.x1) / (n1 - 1);
     
-    var step_y = (b.y - a.y) / (n1 - 1);
+    var step_y = (b.x2 - a.x2) / (n1 - 1);
     
     var result = [];
     
-    var epsilon = 0.1;
+    var epsilon = 0.2;
     
     for(var i = 0; i < n1; i++){
         result[i] = [];
@@ -250,19 +254,19 @@ function get_answer_array(a ,b, t, f){
     //помним что краевые условия удовлетваряют среднеквадратично:
     for(var i = 0; i < n1; ++i){
         var r = Math.random() * 2 - 1;
-        result[i][0]  = f(a.x + i * step_x, a.y, t) + r * epsilon / 4;
+        result[i][0]  = f(a.x1 + i * step_x, a.x2, t) + r * epsilon / 4;
         r = Math.random() * 2 - 1;
-        result[0][i]  = f(a.x, a.y + i * step_y, t) + r * epsilon / 4;
+        result[0][i]  = f(a.x1, a.x2 + i * step_y, t) + r * epsilon / 4;
         r = Math.random() * 2 - 1;
-        result[i][n1 - 1]  = f(a.x + i * step_x, b.y, t) + r * epsilon / 4;
+        result[i][n1 - 1]  = f(a.x1 + i * step_x, b.x2, t) + r * epsilon / 4;
         r = Math.random() * 2 - 1;
-        result[n1 - 1][i]  = f(b.x, a.y + i * step_y, t) + r * epsilon / 4;
+        result[n1 - 1][i]  = f(b.x1, a.x2 + i * step_y, t) + r * epsilon / 4;
     }
 
     //в узлах сетки для моделирующих функций передаем точное значение
     for(var i = (h - 1); i < n1; i =  i + h){
         for(var j = (h - 1); j < n1; j =  j + h){
-            result[i][j]  = f(a.x + i * step_x, a.y + j * step_y, t);
+            result[i][j]  = f(a.x1 + i * step_x, a.x2 + j * step_y, t);
         }
     }   
 
@@ -273,7 +277,7 @@ function get_answer_array(a ,b, t, f){
             if(isFinite(result[i][j]))
                 continue;
             
-            result[i][j]  = f(a.x + i * step_x, a.y + j * step_y, t);
+            result[i][j]  = f(a.x1 + i * step_x, a.x2 + j * step_y, t);
             result[i][j] = make_fault(result[i][j], i, j, h, epsilon);
         }
     } 
