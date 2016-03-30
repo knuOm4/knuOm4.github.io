@@ -53,7 +53,3 @@ TODO list:
 <li>y(s)</li>
 <li>Проверка решения</li>
 </ul>
-
-## How to install locally
-1. `npm install -g local-web-server`
-2. `ws` ~ from the root
