@@ -1,450 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>M.M.</title>
+        <!-- CSS inits -->
+            <link rel="shortcut icon" href="./favicon.ico">
+            <!-- buttons -->
+                <link rel="stylesheet" type="text/css" href="./source/js/libs/buttonStyle/base.css" />
+                <link rel="stylesheet" type="text/css" href="./source/js/libs/buttonStyle/style.css" />
+            <!-- bootstrap -->
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+            <!-- checkbox -->
+                <link rel="stylesheet" type="text/css" href="./source/js/libs/checkboxStyle/normalize.css" />
+                <link rel="stylesheet" type="text/css" href="./source/js/libs/checkboxStyle/demo.css" />
+                <link rel="stylesheet" type="text/css" href="./source/js/libs/checkboxStyle/component.css" />
+            <!-- graph -->
+                <link rel="stylesheet" type="text/css" href="//jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css">
+            <!-- fonts -->
+                <link rel="stylesheet" type="text/css" href="./source/js/libs/fonts/font-awesome-4.2.0/css/font-awesome.min.css" />
+            <!-- solver -->
+                <link rel="stylesheet/less" type="text/css" href="./source/css/solver.less" />
+        <!-- JS inits -->
+            <!-- jquery -->
+                <script type="text/javascript" src="./source/js/libs/jQuery/jquery.min.js"></script>
+            <!-- less -->
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.6.1/less.min.js"></script>
+            <!-- angular -->
+                <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+                <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
+            <!-- checkbox -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+            <!-- graph -->
+                <script type="text/javascript" src="//jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+                <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.3/jsxgraphcore.js"></script>
+            <!-- app module -->
+                <script type="text/javascript" src="./source/js/app/solver.module.js"></script>
+                <script type="text/javascript" src="./source/js/app/solver.controller.js"></script>
+                <script type="text/javascript" src="./source/js/app/data/data.js"></script>
+                <script type="text/javascript" src="./source/js/app/loader/loader.js"></script>
+                <script type="text/javascript" src="./source/js/app/graph/graph.js"></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>M.M.</title>
-    <script type="text/javascript" src="./source/libs/jQuery/jquery.min.js"></script>
-    <script type="text/javascript" src="./source/logic/Router.js"></script>
-    <script type="text/javascript" src="./source/libs/Pilot/Pilot.js"></script>
-    <script type="text/javascript" src="//jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.3/jsxgraphcore.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="./source/logic/loader.css" />
-    <link rel="stylesheet" type="text/css" href="./source/logic/graph.css" />
-    <link rel="stylesheet" type="text/css" href="./source/logic/app.css" />
-    <link rel="stylesheet" type="text/css" href="//jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css">
-    <link rel="stylesheet" type="text/css" href="./source/libs/transitionStyle/default.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/transitionStyle/multilevelmenu.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/transitionStyle/component.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/transitionStyle/animations.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/buttonStyle/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/fonts/font-awesome-4.2.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/buttonStyle/demo.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/buttonStyle/button.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/checkboxStyle/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/checkboxStyle/demo.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/checkboxStyle/component.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/inputStyle/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="./source/libs/inputStyle/set2.css" />
-    <script src="./source/libs/transitions/modernizr.custom.js"></script>
-    <script src="./source/libs/button/snap.svg-min.js"></script>
-    <script src="./source/libs/script.js"></script>
-</head>
-<!--  -->
-
-<body onload="bodyLoader();">
-    <div id="pt-main" class="pt-perspective">
-        <div id="pt-index" class="pt-page pt-page-1">
-            <h1>
-                <span>Solver</span>Дискретні спостереження та моделюючі функції
-                <br>
-                <strong>OPN team</strong>
-            </h1>
-            <div class="container">
-                <!-- Top Navigation -->
-                <div id="s1">
-                    <div class="subtitle">
-                        <h2>Тип задачі</h2>
-                    </div>
-                    <section>
-                        <form class="ac-custom ac-radio ac-fill" autocomplete="off">
-                            <ul>
-                                <li>
-                                    <input id="r1" name="r1" type="radio">
-                                    <label for="r1" class="rus">Тестова задача</label>
-                                </li>
-                                <li>
-                                    <input id="r2" name="r1" type="radio" disabled="true">
-                                    <label for="r2" disabled="true" class="rus">Реальні данні</label>
-                                </li>
-                            </ul>
-                        </form>
-                    </section>
-                    <div class="hr" onclick="moveTo(1);">
-                        <hr class="style-five">
-                    </div>
-                </div>
-                <!-- class="absent" -->
-                <div id="s2">
-                    <div class="subtitle">
-                        <h2>Оберіть диф оператор</h2>
-                    </div>
-                    <section>
-                        <form class="ac-custom ac-radio ac-fill" autocomplete="off">
-                            <ul>
-                                <li>
-                                    <input id="r3" name="r3" type="radio" s="1">
-                                    <label for="r3">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>+&part;x<sub>2</sub><sup>2</sup>)-&part;t<sup>2</sup></label>
-                                </li>
-                                <li>
-                                    <input id="r4" name="r3" type="radio" disabled="true" s="2">
-                                    <label for="r4" disabled="true">L(&part;s)=c<sup>2</sup>(&part;x<sub>1</sub><sup>2</sup>)+&part;t<sup>2</sup></label>
-                                </li>
-
-                            </ul>
-                        </form>
-                    </section>
-                    <div class="hr" onclick="moveTo(2);">
-                        <hr class="style-five">
-                    </div>
-                </div>
-                <div id="s3">
-                    <div class="subtitle">
-                        <h2>Визначте границі</h2>
-                    </div>
-                    <section class="content bgcolor-4">
-                        <span class="input input--kozakura">
-                            <input class="input__field input__field--kozakura" type="number" id="input-9" />
-                            <label class="input__label input__label--kozakura" for="input-9">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X1<sub>min</sub></span>
-                            </label>
-                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
-                            </svg>
-                        </span>
-                        <span class="input input--kozakura">
-                            <input class="input__field input__field--kozakura" type="number" id="input-10" />
-                            <label class="input__label input__label--kozakura" for="input-10">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X1<sub>max</sub></span>
-                            </label>
-                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
-                            </svg>
-                        </span>
-                        <br>
-                        <span class="input input--kozakura">
-                            <input class="input__field input__field--kozakura" type="number" id="input-19" />
-                            <label class="input__label input__label--kozakura" for="input-19">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmin">X2<sub>min</sub></span>
-                            </label>
-                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
-                            </svg>
-                        </span>
-                        <span class="input input--kozakura">
-                            <input class="input__field input__field--kozakura" type="number" id="input-20" />
-                            <label class="input__label input__label--kozakura" for="input-20">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Xmax">X2<sub>max</sub></span>
-                            </label>
-                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
-                            </svg>
-                        </span>
-                        <br>
-                        <span class="input input--kozakura">
-                            <input class="input__field input__field--kozakura" type="number" id="input-12" />
-                            <label class="input__label input__label--kozakura" for="input-12">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Tmax">T<sub>max</sub></span>
-                            </label>
-                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
-                            </svg>
-                        </span>
-                    </section>
-                    <div class="hr" onclick="moveTo(3);">
-                        <hr class="style-five">
-                    </div>
-                </div>
-                <div id="s4">
-                    <div class="subtitle">
-                        <h2>Оберіть
-                            <span class="en"> y(s)</span>
-                        </h2>
-                    </div>
-                    <section>
-                        <form class="ac-custom ac-radio ac-fill" autocomplete="off">
-                            <ul>
-                                <li>
-                                    <input id="r5" name="r5" type="radio" onclick="changeOut('./graph/3-d/plot.html');">
-                                    <label for="r5">sin(x<sub>1</sub><sup>2</sup>+x<sub>2</sub><sup>2</sup>)t<sup>2</sup></label>
-                                </li>
-                                <li>
-                                    <input id="r6" name="r5" type="radio" onclick="changeOut('./graph/3-d/plot.html');">
-                                    <label for="r6">sin(x<sub>1</sub>)x<sub>2</sub><sup>2</sup> + t<sup>2</sup></label>
-                                </li>
-
-                            </ul>
-                        </form>
-                    </section>
-                    <div class="hr" onclick="moveTo(4);">
-                        <hr class="style-five">
-                    </div>
-                </div>
-                <div id="s5">
-                    <div class="subtitle">
-                        <h2>Додаткові параметри</h2>
-                    </div>
-                    <section class="content bgcolor-4">
-                        <span class="input input--kozakura">
-                            <input class="input__field input__field--kozakura" type="number" id="input-11" />
-                            <label class="input__label input__label--kozakura" for="input-11">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Constant">Constant</span>
-                            </label>
-                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
-                            </svg>
-                        </span>
-                    </section>
-                    <div class="hr" onclick="moveTo(5);">
-                        <hr class="style-five">
-                    </div>
-                </div>
-                <div id="s6">
-                    <div class="subtitle">
-                        <h2>Граничні і початкові спостереження</h2>
-                    </div>
-                    <section class="content bgcolor-4">
-                        <span class="input input--kozakura">
-                            <input class="input__field input__field--kozakura" type="number" id="input-13" />
-                            <label class="input__label input__label--kozakura" for="input-13">
-                                <span class="input__label-content input__label-content--kozakura" data-content="Количество">Кількість</span>
-                            </label>
-                            <svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                                <path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z" />
-                            </svg>
-                        </span>
-                        <div id="for_inputs" style="font-size: 30px;"></div>
-                    </section>
-                    <div class="hr" onclick="moveTo(6);">
-                        <hr class="style-five">
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="button-wrap">
-                        <button class="button button--line button--effect-2">
-                            <span class="morph-shape" data-morph-active="M282.5,62.5c0,27.891-17.583,50.176-46.5,53.5c-21.75,2.5-64.355,4-86,4c-21.645,0-65-1-86-4c-29.408-4.201-46.5-25.609-46.5-53.5l0,0C17.5,34.609,36.594,13.177,64,8c22.5-4.25,64.355-4,86-4c21.645,0,64.669,1.31,86,4C263.75,11.5,282.5,34.609,282.5,62.5L282.5,62.5z">
-                                <svg width="100%" height="100%" viewBox="0 0 300 125" preserveAspectRatio="none">
-                                    <path d="M286.5,62.5c0,27.891-22.609,50.5-50.5,50.5c-21.5,0-64.355,0-86,0c-21.645,0-64.5,0-86,0c-27.891,0-50.5-22.609-50.5-50.5l0,0C13.5,34.609,36.109,12,64,12c21.5,0,64.355,0,86,0c21.645,0,64.5,0,86,0C263.891,12,286.5,34.609,286.5,62.5L286.5,62.5z" />
-                                </svg>
-                            </span>
-                            <span class="button__text"><a href="/loader" id="next">Далі</a></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <body ng-app="solver">
+        <div class="main-page" ng-class="solver.pageClass()" ng-controller="SolverController as solver">
+            <div ng-view></div>
         </div>
-        <div id="pt-loader" class="pt-page pt-page-2">
-            <div class="loading-loader">
-                <div class="row-loader">
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                </div>
-                <div class="row-loader">
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                </div>
-                <div class="row-loader">
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                </div>
-                <div class="row-loader">
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                    <div class="point-loader"></div>
-                </div>
-            </div>
-
-        </div>
-        <div id="pt-graph" class="pt-page pt-page-3" style="overflow:auto;">
-            <div class="content">
-                <div class="button-wrap">
-                    <button class="button button--line button--effect-2">
-                        <span class="morph-shape" data-morph-active="M282.5,62.5c0,27.891-17.583,50.176-46.5,53.5c-21.75,2.5-64.355,4-86,4c-21.645,0-65-1-86-4c-29.408-4.201-46.5-25.609-46.5-53.5l0,0C17.5,34.609,36.594,13.177,64,8c22.5-4.25,64.355-4,86-4c21.645,0,64.669,1.31,86,4C263.75,11.5,282.5,34.609,282.5,62.5L282.5,62.5z">
-                            <svg width="100%" height="100%" viewBox="0 0 300 125" preserveAspectRatio="none">
-                                <path d="M286.5,62.5c0,27.891-22.609,50.5-50.5,50.5c-21.5,0-64.355,0-86,0c-21.645,0-64.5,0-86,0c-27.891,0-50.5-22.609-50.5-50.5l0,0C13.5,34.609,36.109,12,64,12c21.5,0,64.355,0,86,0c21.645,0,64.5,0,86,0C263.891,12,286.5,34.609,286.5,62.5L286.5,62.5z" />
-                            </svg>
-                        </span>
-                        <span class="button__text"><a href="/knuom4.github.io/">Повернутися</a></span>
-                    </button>
-                </div>
-            </div>
-            <div id="wrapper">
-                <div class="info">
-                    <h2>Аналіз результатів</h2>
-                </div>
-                <!-- <div id="jxgbox" class="jxgbox" style="width:500px; height:400px;"> -->
-
-                </div>
-                <div class="3d" style="position:relative;margin: -100px 650px;">
-                    <iframe id="outI" src="./graph/3-d/plot.html" frameborder="0" width="500" height="400"></iframe>
-                </div>
-            </div>
-
-        </div>
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="./source/libs/transitions/jquery.dlmenu.js"></script>
-        <script src="./source/libs/transitions/pagetransitions.js"></script>
-        <script src="./source/libs/button/classie.js"></script>
-        <script src="./source/libs/checkbox/svgcheckbx.js"></script>
-        <script src="./source/libs/input/classie.js"></script>
-        <script>
-            (function() {
-
-                function extend(a, b) {
-                    for (var key in b) {
-                        if (b.hasOwnProperty(key)) {
-                            a[key] = b[key];
-                        }
-                    }
-                    return a;
-                }
-
-                function SVGButton(el, options) {
-                    this.el = el;
-                    this.options = extend({}, this.options);
-                    extend(this.options, options);
-                    this.init();
-                }
-
-                SVGButton.prototype.options = {
-                    speed: {
-                        reset: 800,
-                        active: 150
-                    },
-                    easing: {
-                        reset: mina.elastic,
-                        active: mina.easein
-                    }
-                };
-
-                SVGButton.prototype.init = function() {
-                    this.shapeEl = this.el.querySelector('span.morph-shape');
-
-                    var s = Snap(this.shapeEl.querySelector('svg'));
-                    this.pathEl = s.select('path');
-                    this.paths = {
-                        reset: this.pathEl.attr('d'),
-                        active: this.shapeEl.getAttribute('data-morph-active')
-                    };
-
-                    this.initEvents();
-                };
-
-                SVGButton.prototype.initEvents = function() {
-                    this.el.addEventListener('mousedown', this.down.bind(this));
-                    this.el.addEventListener('touchstart', this.down.bind(this));
-
-                    this.el.addEventListener('mouseup', this.up.bind(this));
-                    this.el.addEventListener('touchend', this.up.bind(this));
-
-                    this.el.addEventListener('mouseout', this.up.bind(this));
-                };
-
-                SVGButton.prototype.down = function() {
-                    this.pathEl.stop().animate({
-                        'path': this.paths.active
-                    }, this.options.speed.active, this.options.easing.active);
-                };
-
-                SVGButton.prototype.up = function() {
-                    this.pathEl.stop().animate({
-                        'path': this.paths.reset
-                    }, this.options.speed.reset, this.options.easing.reset);
-                };
-
-                [].slice.call(document.querySelectorAll('button.button--effect-1')).forEach(function(el) {
-                    new SVGButton(el);
-                });
-
-                [].slice.call(document.querySelectorAll('button.button--effect-2')).forEach(function(el) {
-                    new SVGButton(el, {
-                        speed: {
-                            reset: 650,
-                            active: 650
-                        },
-                        easing: {
-                            reset: mina.elastic,
-                            active: mina.elastic
-                        }
-                    });
-                });
-            })();
-
-            function findNext(num) {
-                var a = $("#s" + (num + 1));
-                return (a && !a.hasClass("absent")) ? a : findNext(num + 1);
-            }
-
-            function moveTo(num) {
-                var cur = $("#s" + num),
-                    next = findNext(num),
-                    m;
-                console.log(cur, next);
-                if (cur.isOnScreen()) {
-                    m = next;
-                } else {
-                    m = cur
-                }
-                $("#pt-index").animate({
-                    scrollTop: m.offset().top
-                }, 2000);
-            };
-            function changeOut(str) {
-                $("#outI").attr("src", str);
-            };
-            $.fn.isOnScreen = function() {
-
-                var win = $(window);
-
-                var viewport = {
-                    top: win.scrollTop(),
-                    left: win.scrollLeft()
-                };
-                viewport.right = viewport.left + win.width();
-                viewport.bottom = viewport.top + win.height();
-
-                var bounds = this.offset();
-                bounds.right = bounds.left + this.outerWidth();
-                bounds.bottom = bounds.top + this.outerHeight();
-
-                return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-            };
-        </script>
-        <script>
-            (function() {
-                // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
-                if (!String.prototype.trim) {
-                    (function() {
-                        // Make sure we trim BOM and NBSP
-                        var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-                        String.prototype.trim = function() {
-                            return this.replace(rtrim, '');
-                        };
-                    })();
-                }
-
-                [].slice.call(document.querySelectorAll('input.input__field')).forEach(function(inputEl) {
-                    // in case the input is already filled..
-                    if (inputEl.value.trim() !== '') {
-                        classie.add(inputEl.parentNode, 'input--filled');
-                    }
-
-                    // events:
-                    inputEl.addEventListener('focus', onInputFocus);
-                    inputEl.addEventListener('blur', onInputBlur);
-                });
-
-                function onInputFocus(ev) {
-                    classie.add(ev.target.parentNode, 'input--filled');
-                }
-
-                function onInputBlur(ev) {
-                    if (ev.target.value.trim() === '') {
-                        classie.remove(ev.target.parentNode, 'input--filled');
-                    }
-                }
-            })();
-        </script>
-</body>
-
+    </body>
 </html>
