@@ -10,13 +10,16 @@
     .module('solver')
     .controller('SolverGraphController', SolverGraphController);
 
-  SolverGraphController.$inject = ['$location'];
-  function SolverGraphController($location) {
+  SolverGraphController.$inject = ['$state'];
+
+  function SolverGraphController($state) {
     var vm = this;
     vm.goHome = goHome;
 
     function goHome() {
-      $location.path('/data');
+      $state.go('data', {}, {
+        reload: true
+      });
     }
   }
 

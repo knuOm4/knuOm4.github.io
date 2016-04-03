@@ -63,7 +63,7 @@ a:focus {
 .theme-9 a:hover, .theme-9 a:focus { color: #74777b; }
 
 .content {
-	min-height: 250px;
+	/*min-height: 250px;*/
 	margin: 0 auto;
 	padding-bottom: 2em;
 }
