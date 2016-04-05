@@ -3,7 +3,7 @@
         <form class="ac-custom ac-radio ac-fill" autocomplete="off">
             <ul>
                 <li ng-repeat="check in checkbox.source" ng-class="{'disabled': check.disabled}">
-                    <input id="{{'r' + checkbox.index + $index}}" name="{{check.name}}" ng-value="true" type="{{check.type}}" ng-disabled="check.disabled" ng-model="check.value" ng-change="check.onChange && check.onChange()">
+                    <input id="{{'r' + checkbox.index + $index}}" name="{{check.name}}" ng-value="true" type="{{check.type}}" ng-disabled="check.disabled" ng-model="check.value" ng-change="check.onChange && check.onChange()" change-on-model>
                     <label for="{{'r' + checkbox.index + $index}}" ng-class="{'{{check.class}}': true}" ng-bind-html="check.label | trustedAsHtml" ng-disabled="check.disabled"></label>
                 </li>
             </ul>
@@ -73,19 +73,19 @@
             </span>
             <checkbox source="data.data.typeSource" index="1"></checkbox>
         </div>
-        <div class="diff" id="s2" ng-if="data.data.typeSource.test.value">
+        <div class="diff" id="s2" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
                 <h2>Оберіть диф оператор</h2>
             </div>
             <checkbox source="data.data.diffOper" index="2"></checkbox>
         </div>
-        <div class="bounds" id="s3" ng-if="data.data.typeSource.test.value || data.data.typeSource.real.value">
+        <div class="bounds" id="s3" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
                 <h2>Визначте границі</h2>
             </div>
             <inputs source="data.data.maxValues" index="3"></inputs>
         </div>
-        <div id="s4" class="function" ng-if="data.data.typeSource.test.value">
+        <div id="s4" class="function" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
                 <h2>Оберіть
                     <span class="en">
@@ -94,13 +94,13 @@
                 <checkbox source="data.data.yByS" index="4"></checkbox>
             </div>
         </div>
-        <div id="s5" class="additions" ng-if="data.data.typeSource.test.value">
+        <div id="s5" class="additions" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
                 <h2>Додаткові параметри</h2>
             </div>
             <inputs source="data.data.additions" index="5"></inputs>
         </div>
-        <div id="s6" ng-if="data.data.typeSource.test.value || data.data.typeSource.real.value">
+        <div id="s6" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
                 <h2>Граничні і початкові спостереження</h2>
             </div>

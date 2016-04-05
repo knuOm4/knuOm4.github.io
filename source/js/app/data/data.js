@@ -16,6 +16,7 @@
     .directive('inputs', InputsDirective)
     .directive('buttons', ButtonsDirective)
     .directive('inputsDynamic', InputsDynamicDirective)
+    .directive('changeOnModel', ChangeOnModelDirective)
     .filter('trustedAsHtml', TrustedAsHtmlFilter);
 
   SolverDataController.$inject = ['$scope', 'states', 'datas', '$rootScope', '$state'];
@@ -24,7 +25,7 @@
     var vm = this;
     vm.changeOut = changeOut;
 
-    vm.data = {
+    vm.data = datas.getData('data') || {
       typeSource: {
         test: {
           label: 'Тестова задача',
@@ -107,12 +108,12 @@
         placeholder: 'Кількість',
         onChange: function() {
           var newV = parseInt(this.value),
-            oldV = vm.boundariesValues.length;
+            oldV = vm.data.boundariesValues.length;
           if (angular.isNumber(newV)) {
-            vm.boundariesValues.length = newV || 0;
+            vm.data.boundariesValues.length = newV || 0;
             if (newV > oldV) {
-              for (var i = oldV; i < vm.boundariesValues.length; i++) {
-                vm.boundariesValues[i] = {
+              for (var i = oldV; i < vm.data.boundariesValues.length; i++) {
+                vm.data.boundariesValues[i] = {
                   start: [{
                     type: 'text',
                     placeholder: 'x1 поч',
@@ -149,7 +150,6 @@
         }
       }
     };
-    datas.saveData('data', vm.data);
 
     function saveDataAndGoLoader() {
       datas.saveData('data', vm.data);
@@ -158,13 +158,6 @@
     function changeOut(value) {
       vm.graphSrc = value;
     }
-    $rootScope.$on('$stateChangeSuccess',
-      function() {
-        if ($state.is('data')) {
-          vm.data = datas.getData('data');
-        }
-      }
-    );
   }
 
   HelpersService.$inject = ['$location', '$anchorScroll', '$document', '$rootScope', '$state'];
@@ -247,6 +240,28 @@
         });
       },
       controller: function($scope) {}
+    };
+  }
+
+  ChangeOnModelDirective.$inject = ['$timeout'];
+
+  function ChangeOnModelDirective($timeout) {
+    return {
+      restrict: 'AE',
+      priority: -1,
+      scope: false,
+      link: function($scope, element, attrs) {
+        $timeout(function() {
+          $scope.$watch(attrs.ngModel,
+            function(value) {
+              if (value) {
+                var event = new Event('change');
+                element[0].dispatchEvent(event);
+              }
+            }
+          );
+        });
+      }
     };
   }
 
