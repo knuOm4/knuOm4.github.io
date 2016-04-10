@@ -19,9 +19,9 @@
         <ul class="input-list style-4 clearfix flex-center">
             <li ng-repeat="input in inputs.source">
                 <section class="content" align="center">
-                    <span class="input input--manami">
-                        <input class="input__field input__field--manami" type="{{input.type}}" id="input-32" ng-model="input.value" ng-change="input.onChange()"/>
-                        <label class="input__label input__label--manami" for="input-32">
+                    <span class="input input--manami" ng-class="{'input--filled': input.value !== ''}">
+                        <input class="input__field input__field--manami" type="{{input.type}}" id="{{input.id}}" ng-model="input.value" ng-change="input.onChange()"/>
+                        <label class="input__label input__label--manami" for="{{input.id}}">
                             <span class="input__label-content input__label-content--manami" ng-bind="input.placeholder"></span>
                         </label>
                     </span>
@@ -49,10 +49,8 @@
 
 <script type="text/ng-template" id="/inputs-dynamic.html">
     <section ng-repeat="addition in inputsDynamic.source">
-        <h3 class="text-center" ng-bind="'Початкове спостереження ' + ($index + 1)"></h3>
-        <inputs source="addition.start"></inputs>
-        <h3 class="text-center" ng-bind="'Граничне спостереження ' + ($index + 1)"></h3>
-        <inputs source="addition.boundaries"></inputs>
+        <h3 class="text-center" ng-bind="inputsDynamic.text + ' ' + ($index + 1)"></h3>
+        <inputs source="addition">
     </section>
     <div class="hr">
         <hr class="style-five">
@@ -102,13 +100,20 @@
         </div>
         <div id="s6" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
-                <h2>Граничні і початкові спостереження</h2>
+                <h2>Початкові спостереження</h2>
             </div>
-            <inputs source="data.data.boundaries" index="6"></inputs>
-            <inputs-dynamic source="data.data.boundariesValues" index="6"></inputs-dynamic>
+            <inputs source="data.data.starting" index="6" change-on-model></inputs>
+            <inputs-dynamic source="data.data.startingValues" text="'Початкове спостереження'" index="6"></inputs-dynamic>
         </div>
-        <div id="s7" class="button margin-center">
-            <buttons class="flex" buttons-source="data.data.buttonsSource" index="7"></buttons>
+        <div id="s7" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
+            <div class="subtitle">
+                <h2>Граничні спостереження</h2>
+            </div>
+            <inputs source="data.data.boundaries" index="7" change-on-model></inputs>
+            <inputs-dynamic source="data.data.boundariesValues" text="'Граничне спостереження'" index="7"></inputs-dynamic>
+        </div>
+        <div id="s8" class="button margin-center">
+            <buttons class="flex" buttons-source="data.data.buttonsSource" index="8"></buttons>
         </div>
     </div>
 </div>

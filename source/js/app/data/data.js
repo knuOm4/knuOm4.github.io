@@ -19,13 +19,12 @@
     .directive('changeOnModel', ChangeOnModelDirective)
     .filter('trustedAsHtml', TrustedAsHtmlFilter);
 
-  SolverDataController.$inject = ['$scope', 'states', 'datas', '$rootScope', '$state'];
+  SolverDataController.$inject = ['$scope', 'states', 'datas', '$rootScope', '$state', 'CacheFactory'];
 
-  function SolverDataController($scope, states, datas, $rootScope, $state) {
+  function SolverDataController($scope, states, datas, $rootScope, $state, CacheFactory) {
     var vm = this;
-    vm.changeOut = changeOut;
-
-    vm.data = datas.getData('data') || {
+    var dataCache = CacheFactory.get('dataCache') || CacheFactory.createCache('dataCache');
+    var defaultData = {
       typeSource: {
         test: {
           label: 'Тестова задача',
@@ -113,36 +112,51 @@
             vm.data.boundariesValues.length = newV || 0;
             if (newV > oldV) {
               for (var i = oldV; i < vm.data.boundariesValues.length; i++) {
-                vm.data.boundariesValues[i] = {
-                  start: [{
-                    type: 'text',
-                    placeholder: 'x1 поч',
-                    value: ''
-                  }, {
-                    type: 'text',
-                    placeholder: 'x2 поч',
-                    value: ''
-                  }],
-                  boundaries: [{
-                    type: 'text',
-                    placeholder: 'x1 гран',
-                    value: ''
-                  }, {
-                    type: 'text',
-                    placeholder: 'x2 гран',
-                    value: ''
-                  }, {
-                    type: 'text',
-                    placeholder: 'T гран',
-                    value: ''
-                  }]
-                };
+                vm.data.boundariesValues[i] = [{
+                  type: 'text',
+                  placeholder: 'x1 гран',
+                  value: ''
+                }, {
+                  type: 'text',
+                  placeholder: 'x2 гран',
+                  value: ''
+                }, {
+                  type: 'text',
+                  placeholder: 'T гран',
+                  value: ''
+                }];
               }
             }
           }
         }
       }],
       boundariesValues: [],
+      starting: [{
+        type: 'text',
+        value: '',
+        placeholder: 'Кількість',
+        onChange: function() {
+          var newV = parseInt(this.value),
+            oldV = vm.data.startingValues.length;
+          if (angular.isNumber(newV)) {
+            vm.data.startingValues.length = newV || 0;
+            if (newV > oldV) {
+              for (var i = oldV; i < vm.data.startingValues.length; i++) {
+                vm.data.startingValues[i] = [{
+                  type: 'text',
+                  placeholder: 'x1 поч',
+                  value: ''
+                }, {
+                  type: 'text',
+                  placeholder: 'x2 поч',
+                  value: ''
+                }];
+              }
+            }
+          }
+        }
+      }],
+      startingValues: [],
       buttonsSource: {
         next: {
           click: saveDataAndGoLoader,
@@ -150,6 +164,18 @@
         }
       }
     };
+
+    vm.changeOut = changeOut;
+
+    if (CacheFactory.get('dataCache')) {
+      datas.saveData('data', angular.merge({}, defaultData, CacheFactory.get('dataCache').get('data')));
+    }
+    vm.data = datas.getData('data') || defaultData;
+    $scope.$watch('data.data', function(newValue, oldValue) {
+      if (!angular.equals(newValue, oldValue)) {
+        dataCache.put('data', newValue);
+      }
+    }, true);
 
     function saveDataAndGoLoader() {
       datas.saveData('data', vm.data);
@@ -278,6 +304,18 @@
       controllerAs: 'inputs',
       bindToController: true,
       link: function($scope, element, attrs) {
+        function guid() {
+          function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+              .toString(16)
+              .substring(1);
+          }
+          return s4() + s4() + s4() + s4() +
+            s4() + s4() + s4() + s4();
+        }
+        _.each($scope.inputs.source, function(elem) {
+          elem.id = guid();
+        });
         $timeout(
           function() {
             helpers.appendScript('./source/js/libs/input/classie.js');
@@ -321,7 +359,8 @@
       replace: false,
       templateUrl: '/inputs-dynamic.html',
       scope: {
-        source: '='
+        source: '=',
+        text: '='
       },
       controllerAs: 'inputsDynamic',
       bindToController: true,

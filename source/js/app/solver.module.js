@@ -7,7 +7,7 @@
   'use strict';
 
   angular
-    .module('solver', ['ui.router'])
+    .module('solver', ['ui.router', 'angular-cache'])
     .config(SolverConfig)
     .run(SolverRun);
 
@@ -17,9 +17,16 @@
     $rootScope._ = _;
   }
 
-  SolverConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+  SolverConfig.$inject = ['$stateProvider', '$urlRouterProvider', 'CacheFactoryProvider'];
 
-  function SolverConfig($stateProvider, $urlRouterProvider) {
+  function SolverConfig($stateProvider, $urlRouterProvider, CacheFactoryProvider) {
+    angular.extend(
+      CacheFactoryProvider.defaults,
+      {
+        maxAge: 15 * 60 * 1000,
+        storageMode: 'localStorage'
+      }
+    );
     $stateProvider
       .state('data', {
         url: "/data",
