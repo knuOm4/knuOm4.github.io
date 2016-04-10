@@ -134,7 +134,7 @@ function solver(L, G, u, Yrl, Ypl, S0, sm0, smr, T, y, c) {
 
 /**
  * makes pretty loader page
- * @return nothing
+ * @return null
  */
 function loading(){
     var divWrapper = document.createElement('div'),

@@ -5,15 +5,11 @@
     <meta charset="utf-8">
     <title>MathBox - Example: Bezier Surface</title>
 
-    <!--
-    This example shows how a bicubic bezier surface is made, using lots of custom expressions and clocks. Also shows how to use the director class.
-  -->
-
     <script type="text/javascript" charset="utf-8" src="MathBoxJs/vendor/domready.js"></script>
     <script type="text/javascript" charset="utf-8" src="MathBoxJs/build/MathBox-bundle.js"></script>
 
     <script type="text/javascript">
-        DomReady.ready(function() {
+        DomReady.ready(function () {
             if (location.href.match(/^file:/)) {
                 document.getElementById('info').style.opacity = 1;
                 document.getElementById('info').innerHTML = "Sorry. This example does not work when accessed using file://. Please use an http:// host and try again.";
@@ -26,12 +22,12 @@
          * Bootstrap
          */
         var assets, mathbox;
-        DomReady.ready(function() {
+        DomReady.ready(function () {
             ThreeBox.preload([
                 './MathBoxJs/build/MathBox.glsl.html',
                 // 'MathBoxJs/shaders/snippets.glsl.html',
                 'MathBoxJs/resources/texture.png'
-            ], function(assets) {
+            ], function (assets) {
                 assets['texture'].repeat.set(2, 2);
                 assets['texture'].offset.set(-.5, -.5);
                 window.assets = assets;
@@ -49,96 +45,97 @@
                 // window.mathboxSetup(mathbox, assets);
             });
         });
-        
+
         window.mathboxScript = [
-          // clean, switch to polar, show axis grid
-          [
-            ['remove', '#surf']
-          ]
-        ]         
-        
-        window.mathboxSetupBase = function(mathbox, assets, data, i) {  
+            // clean, switch to polar, show axis grid
+            [
+                ['remove', '#surf']
+            ]
+        ]
+
+        window.mathboxSetupBase = function (mathbox, assets, data, i) {
             var new_div = document.createElement('div');
             $(new_div).html('T: ' + (i.val * 0.1).toFixed(2));
             new_div.id = 'sys_time';
             $("body").append(new_div);
-            
-            mathbox
-                .viewport({
-                    type: 'cartesian',
-                    range: [[data.a.x1, data.b.x1], [-3, 3], [data.a.x2, data.b.x2]],
-                })
-                .camera({
-                    orbit: 4,
-                    phi: τ / 4 - .8,
-                    theta: 1.1,
-                })
-                .transition(300)
 
-            // Axes
-                .axis({
-                    id: 'a',
-                    axis: 0,
-                    color: 0xa0a0a0,
-                    ticks: 10,
-                    lineWidth: 1,
-                    size: .1,
-                    labels: true,
-                })
-                .axis({
-                    id: 'b',
-                    axis: 1,
-                    color: 0xa0a0a0,
-                    ticks: 10,
-                    lineWidth: 1,
-                    size: .1,
-                    zero: false,
-                    labels: true,
-                })
-                .axis({
-                    id: 'c',
-                    axis: 2,
-                    color: 0xa0a0a0,
-                    ticks: 10,
-                    lineWidth: 1,
-                    size: .1,
-                    zero: false,
-                    labels: true,
-                })            
+            mathbox
+                    .viewport({
+                        type: 'cartesian',
+                        range: [[data.a.x1, data.b.x1], [-3, 3], [data.a.x2, data.b.x2]],
+                    })
+                    .camera({
+                        orbit: 4,
+                        phi: τ / 4 - .8,
+                        theta: 1.1,
+                    })
+                    .transition(300)
+
+                    // Axes
+                    .axis({
+                        id: 'a',
+                        axis: 0,
+                        color: 0xa0a0a0,
+                        ticks: 10,
+                        lineWidth: 1,
+                        size: .1,
+                        labels: true,
+                    })
+                    .axis({
+                        id: 'b',
+                        axis: 1,
+                        color: 0xa0a0a0,
+                        ticks: 10,
+                        lineWidth: 1,
+                        size: .1,
+                        zero: false,
+                        labels: true,
+                    })
+                    .axis({
+                        id: 'c',
+                        axis: 2,
+                        color: 0xa0a0a0,
+                        ticks: 10,
+                        lineWidth: 1,
+                        size: .1,
+                        zero: false,
+                        labels: true,
+                    })
         }
-        
-        window.mathboxSetup = function(mathbox, assets, data, i) {               
-            
-                var script = window.mathboxScript;
-                var director = window.director = new MathBox.Director(mathbox, script);        
-                director.forward();            
+
+        window.mathboxSetup = function (mathbox, assets, data, i) {
+
+            var script = window.mathboxScript;
+            var director = window.director = new MathBox.Director(mathbox, script);
+            director.forward();
             $('#sys_time').html('T: ' + (i.val * 0.1).toFixed(2));
             // Viewport camera/setup
             //    mathbox
             //    Polar viewport
+            mathbox.remove()
             mathbox
             // Cartesian viewport
-                .surface({
-                    id: 'surf',
-                    n: [90, 90],
-                    color: 0xffffff,
-                    shaded: true,
-                    map: assets['texture'], // Asset name is the filename without extension
-                    mapColor: 1,
-                    mapOpacity: 1,
-                    domain: [
-                        [data.a.x1, data.b.x1], 
-                        [data.a.x2, data.b.x2]
-                    ],
-                    data: data.answer[i.val]
-                });
-                
-                if(i.val >= data.answer.length - 1)
-                    i.val = 0;
-                else
-                    i.val = i.val + 1;
+                    .surface({
+                        id: 'surf',
+                        n: [90, 90],
+                        color: 0xffffff,
+                        shaded: true,
+                        map: assets['texture'], // Asset name is the filename without extension
+                        mapColor: 1,
+                        mapOpacity: 1,
+                        domain: [
+                            [data.a.x1, data.b.x1],
+                            [data.a.x2, data.b.x2]
+                        ],
+                        data: data.answer[i.val]
+                    });
+
+            if (i.val >= data.answer.length - 1)
+                i.val = 0;
+            else
+                i.val = i.val + 1;
         }
-        
+
     </script>
 
     <script type="text/javascript">
@@ -156,7 +153,7 @@
                 y: 0
             }
             var i = 0,
-                j = 0;
+                    j = 0;
             var xi = this.a.x + i * this.h;
             var yi = this.a.y + j * this.tau;
             if ((x > xi - this.h && x <= xi) && (y > yi - this.tau && y <= yi))
@@ -178,19 +175,32 @@
     </script>
 
     <script type="text/javascript">
-        $(function() {
-            $(window).on("message", function(e) {
+        $(function () {
+            $(window).on("message", function (e) {
                 var data = e.originalEvent.data;
-                debugger;
                 if (data) {
-                    var i = {val:0};
-                    window.setTimeout(function(){
-                        window.mathboxSetupBase(mathbox, assets, data,i);
-                        window.setInterval(function(){window.mathboxSetup(mathbox, assets, data,i)},2000);
-                    },100);
+                    var i = {val: 0};
+                    window.setTimeout(function () {
+                        window.mathboxSetupBase(mathbox, assets, data, i);
+                        window.setInterval(function () {
+                            window.mathboxSetup(mathbox, assets, data, i)
+                        }, 2000);
+                    }, 100);
                 }
 
             });
+
+            /**
+             * Attention!!!
+             * Please never move this file outside templates folder,
+             * graph main page and plot page itself SHOULD be at least at one
+             * level of subdirectories, because of opposite situation their messaging
+             * is impossible in case of another domains
+             * see: http://stackoverflow.com/questions/3420004/access-parent-url-from-iframe
+             */
+            parent.postMessage({
+                rendered: true,
+            }, document.location);
         });
     </script>
 
@@ -199,9 +209,10 @@
 </head>
 
 <body>
-    <div id="info" class="transition">Use the
-        <kbd>←</kbd>
-        <kbd>→</kbd> keys to step through.</div>
+<div id="info" class="transition">Use the
+    <kbd>←</kbd>
+    <kbd>→</kbd> keys to step through.
+</div>
 </body>
 
 </html>

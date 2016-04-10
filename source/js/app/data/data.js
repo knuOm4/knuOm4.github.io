@@ -2,6 +2,12 @@
  * authors - JYRIK (Julia, Yana, Rostik, Illia, Katya)
  */
 
+/**
+ * this global shit is needed for passing data
+ * from entry form to graph
+ * Angular Integration TODO: Extremally needed replace it with Angular opportunities
+ */
+var data;
 
 (function() {
   'use strict';
@@ -143,6 +149,7 @@
     function goLoader() {
       $location.path('/loader');
       $timeout(function() {
+        data = vm;
         $location.path('/graph');
       }, 2000);
     }
