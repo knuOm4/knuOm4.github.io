@@ -16,7 +16,7 @@
         vm.goHome = goHome;
         vm.graphRender = graphRender;
 
-        $(window).on("message", function(e) {
+        $(window).on("message", function (e) {
             if (e.originalEvent.data.rendered) {
                 vm.graphRender();
             } else {
@@ -57,16 +57,16 @@
             this.b = {};
 
             this.a.x1 = +data.maxValues[0].value || def_a;
-            this.b.x1 = +data.maxValues[2].value || def_b;
-            this.a.x2 = +data.maxValues[1].value || def_a;
+            this.b.x1 = +data.maxValues[1].value || def_b;
+            this.a.x2 = +data.maxValues[2].value || def_a;
             this.b.x2 = +data.maxValues[3].value || def_b;
 
             this.T = +data.maxValues[4].value || def_T;
-            this.const = +data.additions.value || 1;
+            this.const = +data.additions[0].value || 1;
 
-            this.begin_conition = [];
-            this.border_conition = [];
-            this.right_side = [];
+            this.beginCondition = [];
+            this.borderCondition = [];
+            this.rightSide = [];
             if (data.yByS[0].value !== false)
                 this.answer = function (x1, x2, t) {
                     return Math.sin(x1 * x1 + x2 * x2) * t * t;
@@ -76,7 +76,7 @@
                     return Math.sin(x1) * x2 * x2 + t * t;
                 }
             }
-            this.parseArrays(data.boundariesValues);
+            this.parseArrays(data.startingValues, data.boundariesValues);
         }
 
         /**
@@ -145,29 +145,32 @@
          * @param Array data
          * @return null
          */
-        function parseArrays(data) {
-            for (var i = 0; i < data.length; ++i) {
-                this.begin_conition[i] = new Array();
-                this.border_conition[i] = new Array();
-                this.right_side[i] = new Array();
+        function parseArrays(start, boundaries) {
+            for (var i = 0; i < start.length; ++i) {
+                this.beginCondition[i] = new Array();
 
-                this.begin_conition[i][0] = +data[i].start[0].value;
-                this.begin_conition[i][1] = +data[i].start[1].value;
-                this.begin_conition[i][2] = this.answer(this.begin_conition[i][0], this.begin_conition[i][1], 0);
+                this.beginCondition[i][0] = +start[i][0].value;
+                this.beginCondition[i][1] = +start[i][1].value;
+                this.beginCondition[i][2] = this.answer(this.beginCondition[i][0], this.beginCondition[i][1], 0);
+            }
 
-                this.border_conition[i][0] = +data[i].boundaries[0].value;
-                this.border_conition[i][1] = +data[i].boundaries[1].value;
-                this.border_conition[i][2] = +data[i].boundaries[2].value;
-                this.border_conition[i][3] = this.answer(this.border_conition[i][0], this.border_conition[i][1], this.border_conition[i][2]);
+            for (var i = 0; i < boundaries.length; ++i) {
+                this.borderCondition[i] = new Array();
+                this.rightSide[i] = new Array();
 
-                this.right_side[i][0] = this.border_conition[i][0];
-                this.right_side[i][1] = this.border_conition[i][1];
-                this.right_side[i][2] = this.border_conition[i][2];
-                this.right_side[i][3] = this.const * this.const * (
-                    diffFByX1X1(this.answer, this.right_side[i][0], this.right_side[i][1], this.right_side[i][2]) +
-                    diffFByX2X2(this.answer, this.right_side[i][0], this.right_side[i][1], this.right_side[i][2])) -
-                    diffFByTT(this.answer, this.right_side[i][0], this.right_side[i][1], this.answer.right_side[i][2]
-                    );
+                this.borderCondition[i][0] = +boundaries[i][0].value;
+                this.borderCondition[i][1] = +boundaries[i][1].value;
+                this.borderCondition[i][2] = +boundaries[i][2].value;
+                this.borderCondition[i][3] = this.answer(this.borderCondition[i][0], this.borderCondition[i][1], this.borderCondition[i][2]);
+
+                this.rightSide[i][0] = this.borderCondition[i][0];
+                this.rightSide[i][1] = this.borderCondition[i][1];
+                this.rightSide[i][2] = this.borderCondition[i][2];
+                this.rightSide[i][3] = this.const * this.const * (
+                        diffFByX1X1(this.answer, this.rightSide[i][0], this.rightSide[i][1], this.rightSide[i][2]) +
+                        diffFByX2X2(this.answer, this.rightSide[i][0], this.rightSide[i][1], this.rightSide[i][2])
+                    ) -
+                    diffFByTT(this.answer, this.rightSide[i][0], this.rightSide[i][1], this.rightSide[i][2]);
             }
         }
 

@@ -184,15 +184,15 @@ var data;
     }, true);
 
     function saveDataAndGoLoader() {
+      /**
+       * Angular Integration TODO: Extremally needed replace it with Angular opportunities
+       * @type {SolverDataController}
+       */
+      data = vm.data;
       datas.saveData('data', vm.data);
       states.goLoader();
     }
     function changeOut(value) {
-      /**
-       * Angular Integration TODO: Extremally needed replace it with Angular opportunities
-       * @type {SolverDataController}
-         */
-      data = vm;
       vm.graphSrc = value;
     }
   }
