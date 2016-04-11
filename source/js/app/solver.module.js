@@ -7,31 +7,46 @@
   'use strict';
 
   angular
-    .module('solver', ['ngRoute'])
-    .config(SolverConfig);
+    .module('solver', ['ui.router', 'angular-cache'])
+    .config(SolverConfig)
+    .run(SolverRun);
 
-  SolverConfig.$inject = ['$routeProvider'];
+  SolverRun.$inject = ['$rootScope'];
 
-  function SolverConfig($routeProvider) {
-    $routeProvider
-      .when('/data', {
+  function SolverRun($rootScope) {
+    $rootScope._ = _;
+  }
+
+  SolverConfig.$inject = ['$stateProvider', '$urlRouterProvider', 'CacheFactoryProvider'];
+
+  function SolverConfig($stateProvider, $urlRouterProvider, CacheFactoryProvider) {
+    angular.extend(
+      CacheFactoryProvider.defaults,
+      {
+        maxAge: 15 * 60 * 1000,
+        storageMode: 'localStorage'
+      }
+    );
+    $stateProvider
+      .state('data', {
+        url: "/data",
         templateUrl: 'source/js/app/data/templates/data.html',
         controller: 'SolverDataController',
         controllerAs: "data"
       })
-      .when('/loader', {
+      .state('loader', {
+        url: "/loader",
         templateUrl: 'source/js/app/loader/templates/loader.html',
         controller: 'SolverLoaderController',
         controllerAs: "loader"
       })
-      .when('/graph', {
+      .state('graph', {
+        url: "/graph",
         templateUrl: 'source/js/app/graph/templates/graph.html',
         controller: 'SolverGraphController',
         controllerAs: "graph"
-      })
-      .otherwise({
-        redirectTo: '/data'
       });
+      $urlRouterProvider.otherwise('/data');
   }
 })();
 

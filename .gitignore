@@ -1,2 +1,4 @@
 # Ignore IDE config files
 .idea/*
+
+node_modules

@@ -3,17 +3,8 @@
         <form class="ac-custom ac-radio ac-fill" autocomplete="off">
             <ul>
                 <li ng-repeat="check in checkbox.source" ng-class="{'disabled': check.disabled}">
-                    <input id="{{'r' + checkbox.index + $index}}"
-                           name="check.name"
-                           type="{{check.type}}"
-                           ng-disabled="check.disabled"
-                           ng-model="check.value"
-                           ng-change="check.onChange && check.onChange()">
-                    <label for="{{'r' + checkbox.index + $index}}"
-                           ng-class="{'{{check.class}}': true}"
-                           ng-bind-html="check.label | trustedAsHtml"
-                           ng-disabled="check.disabled">
-                    </label>
+                    <input id="{{'r' + checkbox.index + $index}}" name="{{check.name}}" ng-value="true" type="{{check.type}}" ng-disabled="check.disabled" ng-model="check.value" ng-change="check.onChange && check.onChange()" change-on-model>
+                    <label for="{{'r' + checkbox.index + $index}}" ng-class="{'{{check.class}}': true}" ng-bind-html="check.label | trustedAsHtml" ng-disabled="check.disabled"></label>
                 </li>
             </ul>
         </form>
@@ -25,27 +16,41 @@
 
 <script type="text/ng-template" id="/inputs.html">
     <section>
-      <ul class="input-list style-4 clearfix flex-center">
-        <li ng-repeat="input in inputs.source">
-          <input type="{{input.type}}"
-                 placeholder="{{input.placeholder}}"
-                 ng-model="input.value"
-                 class="blacky"
-                 ng-change="input.onChange()">
-        </li>
-      </ul>
+        <ul class="input-list style-4 clearfix flex-center">
+            <li ng-repeat="input in inputs.source">
+                <section class="content" align="center">
+                    <span class="input input--manami" ng-class="{'input--filled': input.value !== ''}">
+                        <input class="input__field input__field--manami" type="{{input.type}}" id="{{input.id}}" ng-model="input.value" ng-change="input.onChange()"/>
+                        <label class="input__label input__label--manami" for="{{input.id}}">
+                            <span class="input__label-content input__label-content--manami" ng-bind="input.placeholder"></span>
+                        </label>
+                    </span>
+                </section>
+            </li>
+        </ul>
     </section>
     <div class="hr" ng-if="inputs.index">
         <hr class="style-five">
     </div>
 </script>
 
+<script type="text/ng-template" id="/buttons.html">
+    <button class="button button--line button--effect-2 solver-button" ng-click="button.click()" ng-repeat="button in buttons.buttonsSource">
+        <span class="morph-shape" data-morph-active="M282.5,62.5c0,27.891-17.583,50.176-46.5,53.5c-21.75,2.5-64.355,4-86,4c-21.645,0-65-1-86-4c-29.408-4.201-46.5-25.609-46.5-53.5l0,0C17.5,34.609,36.594,13.177,64,8c22.5-4.25,64.355-4,86-4c21.645,0,64.669,1.31,86,4C263.75,11.5,282.5,34.609,282.5,62.5L282.5,62.5z">
+            <svg width="100%" height="100%" viewBox="0 0 300 125" preserveAspectRatio="none">
+                <path d="M286.5,62.5C286.5,90.39099999999999,263.891,113,236,113C214.5,113,171.64499999999998,113,150,113C128.355,113,85.5,113,64,113C36.109,113,13.5,90.39099999999999,13.5,62.5C13.5,62.5,13.5,62.5,13.5,62.5C13.5,34.609,36.109,12,64,12C85.5,12,128.35500000000002,12,150,12C171.645,12,214.5,12,236,12C263.891,12,286.5,34.609,286.5,62.5C286.5,62.5,286.5,62.5,286.5,62.5C286.5,62.5,286.5,62.5,286.5,62.5"></path>
+            </svg>
+        </span>
+        <span class="button__text">
+            <a id="next" ng-bind="button.caption"></a>
+        </span>
+    </button>
+</script>
+
 <script type="text/ng-template" id="/inputs-dynamic.html">
     <section ng-repeat="addition in inputsDynamic.source">
-      <h3 class="text-center" ng-bind="'Початкове спостереження ' + ($index + 1)"></h3>
-      <inputs source="addition.start"></inputs>
-      <h3 class="text-center" ng-bind="'Граничне спостереження ' + ($index + 1)"></h3>
-      <inputs source="addition.boundaries"></inputs>
+        <h3 class="text-center" ng-bind="inputsDynamic.text + ' ' + ($index + 1)"></h3>
+        <inputs source="addition">
     </section>
     <div class="hr">
         <hr class="style-five">
@@ -64,45 +69,51 @@
             <span class="subtitle">
                 <h2>Тип задачі</h2>
             </span>
-            <checkbox source="data.typeSource" index="1"></checkbox>
+            <checkbox source="data.data.typeSource" index="1"></checkbox>
         </div>
-        <div class="diff" id="s2">
+        <div class="diff" id="s2" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
                 <h2>Оберіть диф оператор</h2>
             </div>
-            <checkbox source="data.diffOper" index="2"></checkbox>
+            <checkbox source="data.data.diffOper" index="2"></checkbox>
         </div>
-        <div class="bounds" id="s3">
+        <div class="bounds" id="s3" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
                 <h2>Визначте границі</h2>
             </div>
-            <inputs source="data.maxValues" index="3"></inputs>
+            <inputs source="data.data.maxValues" index="3"></inputs>
         </div>
-        <div id="s4" class="function">
+        <div id="s4" class="function" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
                 <h2>Оберіть
-                    <span class="en"> y(s)</span>
+                    <span class="en">
+                        y(s)</span>
                 </h2>
-                <checkbox source="data.yByS" index="4"></checkbox>
+                <checkbox source="data.data.yByS" index="4"></checkbox>
             </div>
         </div>
-        <div id="s5" class="additions">
+        <div id="s5" class="additions" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
                 <h2>Додаткові параметри</h2>
             </div>
-            <inputs source="data.additions" index="5"></inputs>
+            <inputs source="data.data.additions" index="5"></inputs>
         </div>
-        <div id="s6">
+        <div id="s6" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
-                <h2>Граничні і початкові спостереження</h2>
+                <h2>Початкові спостереження</h2>
             </div>
-            <inputs source="data.boundaries" index="5"></inputs>
-            <inputs-dynamic source="data.boundariesValues" index="5"></inputs-dynamic>
+            <inputs source="data.data.starting" index="6" change-on-model></inputs>
+            <inputs-dynamic source="data.data.startingValues" text="'Початкове спостереження'" index="6"></inputs-dynamic>
         </div>
-        <div id="s7" class="button flex-center">
-            <button type="button" class="btn btn-success" ng-click="data.goLoader()">
-                Далі
-            </button>
+        <div id="s7" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
+            <div class="subtitle">
+                <h2>Граничні спостереження</h2>
+            </div>
+            <inputs source="data.data.boundaries" index="7" change-on-model></inputs>
+            <inputs-dynamic source="data.data.boundariesValues" text="'Граничне спостереження'" index="7"></inputs-dynamic>
+        </div>
+        <div id="s8" class="button margin-center">
+            <buttons class="flex" buttons-source="data.data.buttonsSource" index="8"></buttons>
         </div>
     </div>
 </div>

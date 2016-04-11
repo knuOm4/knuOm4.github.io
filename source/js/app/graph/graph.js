@@ -10,8 +10,8 @@
         .module('solver')
         .controller('SolverGraphController', SolverGraphController);
 
-    SolverGraphController.$inject = ['$location'];
-    function SolverGraphController($location) {
+    SolverGraphController.$inject = ['$state'];
+    function SolverGraphController($state) {
         var vm = this;
         vm.goHome = goHome;
         vm.graphRender = graphRender;
@@ -25,7 +25,9 @@
         });
 
         function goHome() {
-            $location.path('/data');
+            $state.go('data', {}, {
+                reload: true
+            });
         }
 
         function graphRender() {

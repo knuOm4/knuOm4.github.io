@@ -124,14 +124,14 @@ ul.input-list li {
 .style-4 input[type="text"] {
   padding: 10px;
   border: none;
-  border-bottom: solid 2px #c9c9c9;
+  border-bottom: solid 2px rgb(234,237,244);
   -webkit-transition: border 0.3s;
   -moz-transition: border 0.3s;
   -o-transition: border 0.3s;
   transition: border 0.3s;
 }
 .style-4 input[type="text"]:focus, .style-4 input[type="text"].focus {
-  border-bottom: solid 2px #969696;
+  border-bottom: none;
 }
 
 /* ============================================================

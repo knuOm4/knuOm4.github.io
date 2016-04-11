@@ -1,0 +1,28 @@
+{
+  "name": "solver-jyrik",
+  "version": "1.0.0",
+  "description": "Solver for diff math problems.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "checkNodeVersion": "n 5.10.1",
+    "runServer": "ws"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knuOm4/knuOm4.github.io.git"
+  },
+  "keywords": [
+    "math"
+  ],
+  "author": "JYRIK team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knuOm4/knuOm4.github.io/issues"
+  },
+  "devDependencies": {
+    "local-web-server": "^1.2.1",
+    "n": "^2.1.0"
+  },
+  "homepage": "https://github.com/knuOm4/knuOm4.github.io#readme"
+}
