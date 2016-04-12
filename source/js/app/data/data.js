@@ -25,12 +25,12 @@ var data;
     .directive('changeOnModel', ChangeOnModelDirective)
     .filter('trustedAsHtml', TrustedAsHtmlFilter);
 
-  SolverDataController.$inject = ['$scope', 'states', 'datas', '$rootScope', '$state', 'CacheFactory'];
+  SolverDataController.$inject = ['$scope', 'states', '$rootScope', '$state', 'CacheFactory', 'helpers'];
 
-  function SolverDataController($scope, states, datas, $rootScope, $state, CacheFactory) {
+  function SolverDataController($scope, states, $rootScope, $state, CacheFactory, helpers) {
     var vm = this;
     var dataCache = CacheFactory.get('dataCache') || CacheFactory.createCache('dataCache');
-    var defaultData = {
+    var defaultData = vm.defaultData = {
       typeSource: {
         test: {
           label: 'Тестова задача',
@@ -84,7 +84,7 @@ var data;
       maxValues: [{
         type: 'text',
         placeholder: 'x1 мін',
-        value: ''
+        value: '',
       }, {
         type: 'text',
         placeholder: 'x1 макс',
@@ -111,8 +111,10 @@ var data;
         type: 'text',
         value: '',
         placeholder: 'Кількість',
-        onChange: function() {
-          var newV = parseInt(this.value),
+        round: true,
+        affectTo: 'boundariesValues',
+        onChange: function(val) {
+          var newV = parseInt(this.value || val),
             oldV = vm.data.boundariesValues.length;
           if (angular.isNumber(newV)) {
             vm.data.boundariesValues.length = newV || 0;
@@ -121,18 +123,19 @@ var data;
                 vm.data.boundariesValues[i] = [{
                   type: 'text',
                   placeholder: 'x1 гран',
-                  value: ''
+                  value: val ? getRandomArbitary(1, 10) : ''
                 }, {
                   type: 'text',
                   placeholder: 'x2 гран',
-                  value: ''
+                  value: val ? getRandomArbitary(1, 10) : ''
                 }, {
                   type: 'text',
                   placeholder: 'T гран',
-                  value: ''
+                  value: val ? getRandomArbitary(1, 10) : ''
                 }];
               }
             }
+            return vm.data.boundariesValues;
           }
         }
       }],
@@ -141,8 +144,10 @@ var data;
         type: 'text',
         value: '',
         placeholder: 'Кількість',
-        onChange: function() {
-          var newV = parseInt(this.value),
+        round: true,
+        affectTo: 'startingValues',
+        onChange: function(val) {
+          var newV = parseInt(this.value || val),
             oldV = vm.data.startingValues.length;
           if (angular.isNumber(newV)) {
             vm.data.startingValues.length = newV || 0;
@@ -151,32 +156,129 @@ var data;
                 vm.data.startingValues[i] = [{
                   type: 'text',
                   placeholder: 'x1 поч',
-                  value: ''
+                  value: val ? getRandomArbitary(1, 10) : ''
                 }, {
                   type: 'text',
                   placeholder: 'x2 поч',
-                  value: ''
+                  value: val ? getRandomArbitary(1, 10) : ''
                 }];
               }
             }
+            return vm.data.startingValues;
           }
         }
       }],
       startingValues: [],
       buttonsSource: {
         next: {
-          click: saveDataAndGoLoader,
+          click: goLoader,
           caption: 'Далі'
+        }
+      },
+      setters: {
+        reset: {
+          click: reset,
+          caption: 'Видалити',
+          ngIf: isDefaulted
+        },
+        defaulted: {
+          click: defaulted,
+          caption: 'Заповнити'
         }
       }
     };
 
+    function isDefaulted() {
+      var result = true;
+      _.some(defaultData, function(value, valueKey) {
+        _.some(value, function(val, valKey) {
+          if (!angular.equals(val.value, vm.data[valueKey][valKey].value)) {
+            result = false;
+            return !result;
+          }
+        });
+        return !result;
+      });
+      return result;
+    }
+    function getRandomArbitary(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    function reset() {
+      vm.data = angular.copy(defaultData);
+    }
+    function defaulted() {
+      var randData = angular.copy(defaultData);
+      var def = {
+        max: 1,
+        min: 10
+      };
+      var T = angular.copy(def);
+      var x1 = angular.copy(def);
+      var x2 = angular.copy(def);
+
+      _.each(defaultData, function(value, valueKey) {
+        _.some(value, function(val, valKey) {
+          switch (val.type) {
+            case 'radio':
+              if (!val.disabled) {
+                randData[valueKey][valKey].value = true;
+                return true;
+              }
+              break;
+            case 'text':
+              if (!val.disabled) {
+                randData[valueKey][valKey].value = getRandomArbitary(1, 10);
+                if (val.round) {
+                  randData[valueKey][valKey].value = Math.round(randData[valueKey][valKey].value);
+                }
+                if (val.onChange) {
+                  randData[val.affectTo] = val.onChange(randData[valueKey][valKey].value);
+                }
+                return false;
+              }
+              break;
+            default:
+              return false;
+          }
+          return false;
+        });
+      });
+      _.each(randData, function(value, valueKey) {
+        _.each(value, function(val, valKey) {
+          angular.isArray(val) && _.each(val, function(v, vKey) {
+            switch (v.placeholder) {
+              case 'x1 поч':
+              case 'x1 гран':
+                x1.min = _.min([x1.min, v.value]);
+                x1.max = _.max([x1.max, v.value]);
+                break;
+              case 'x2 поч':
+              case 'x2 гран':
+                x2.min = _.min([x2.min, v.value]);
+                x2.max = _.max([x2.max, v.value]);
+                break;
+              case 'T гран':
+                T.max = _.max([T.max, v.value]);
+                break;
+              default:
+                console.warn('UNHANDLED', v.placeholder);
+            }
+          })
+        })
+      });
+      randData.maxValues[0].value = x1.min;
+      randData.maxValues[1].value = x1.max;
+      randData.maxValues[2].value = x2.min;
+      randData.maxValues[3].value = x2.max;
+      randData.maxValues[4].value = T.max;
+      dataCache.put('data', randData);
+      states.goData();
+    }
+
     vm.changeOut = changeOut;
 
-    if (CacheFactory.get('dataCache')) {
-      datas.saveData('data', angular.merge({}, defaultData, CacheFactory.get('dataCache').get('data')));
-    }
-    vm.data = datas.getData('data') || defaultData;
+    vm.data = angular.merge({}, defaultData, dataCache.get('data'));
     $scope.$watch('data.data', function(newValue, oldValue) {
       if (!angular.equals(newValue, oldValue)) {
         dataCache.put('data', newValue);
@@ -189,7 +291,6 @@ var data;
        * @type {SolverDataController}
        */
       data = vm.data;
-      datas.saveData('data', vm.data);
       states.goLoader();
     }
     function changeOut(value) {
@@ -211,17 +312,30 @@ var data;
       $location.hash('s' + index);
       $anchorScroll();
     }
+    function clearScript() {
+      appendedScripts = [];
+    }
+    function readdScripts() {
+      var aS = angular.copy(appendedScripts);
+
+      clearScript();
+      _.each(aS, function(elem) {
+        appendScript(elem);
+      });
+    }
 
     $rootScope.$on('$stateChangeSuccess',
       function() {
         if ($state.is('data')) {
-          appendedScripts = [];
+          clearScript();
         }
       }
     );
     return {
       appendScript: appendScript,
-      moveTo: moveTo
+      moveTo: moveTo,
+      clear: clearScript,
+      readdScripts: readdScripts
     };
   }
 
@@ -237,8 +351,12 @@ var data;
         }
       );
     }
+    function goData() {
+      $state.reload();
+    }
     return {
-      goLoader: goLoader
+      goLoader: goLoader,
+      goData: goData
     };
   }
 
@@ -290,10 +408,14 @@ var data;
       link: function($scope, element, attrs) {
         $timeout(function() {
           $scope.$watch(attrs.ngModel,
-            function(value) {
-              if (value) {
-                var event = new Event('change');
-                element[0].dispatchEvent(event);
+            function(newValue, oldValue) {
+              if (!angular.equals(newValue, oldValue) || newValue) {
+                $timeout(
+                  function() {
+                    var event = new Event('change');
+                    element[0].dispatchEvent(event);
+                  }
+                );
               }
             }
           );

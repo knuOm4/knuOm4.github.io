@@ -82,8 +82,13 @@ if (document.createElement('svg').getAttributeNS) {
     var svg = createSVGEl();
     el.parentNode.appendChild(svg);
     el.addEventListener('change', function() {
-      resetRadio(el);
-      draw(el, type);
+      if (el.checked) {
+        resetRadio(el);
+        draw(el, type);
+      } else {
+        resetRadio(el);
+      }
+
     });
   }
 
