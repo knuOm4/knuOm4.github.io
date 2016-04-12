@@ -2,6 +2,12 @@
  * authors - JYRIK (Julia, Yana, Rostik, Illia, Katya)
  */
 
+/**
+ * this global shit is needed for passing data
+ * from entry form to graph
+ * Angular Integration TODO: Extremally needed replace it with Angular opportunities
+ */
+var data;
 
 (function() {
   'use strict';
@@ -178,6 +184,11 @@
     }, true);
 
     function saveDataAndGoLoader() {
+      /**
+       * Angular Integration TODO: Extremally needed replace it with Angular opportunities
+       * @type {SolverDataController}
+       */
+      data = vm.data;
       datas.saveData('data', vm.data);
       states.goLoader();
     }
