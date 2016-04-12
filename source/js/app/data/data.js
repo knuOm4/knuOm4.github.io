@@ -171,7 +171,7 @@ var data;
       startingValues: [],
       buttonsSource: {
         next: {
-          click: goLoader,
+          click: saveDataAndGoLoader,
           caption: 'Далі'
         }
       },
