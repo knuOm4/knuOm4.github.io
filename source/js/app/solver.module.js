@@ -7,7 +7,7 @@
   'use strict';
 
   angular
-    .module('solver', ['ui.router', 'angular-cache'])
+    .module('solver', ['ui.router', 'angular-cache', 'ui.bootstrap'])
     .config(SolverConfig)
     .run(SolverRun);
 

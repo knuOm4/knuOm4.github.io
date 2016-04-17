@@ -17,20 +17,45 @@
 <script type="text/ng-template" id="/inputs.html">
     <section>
         <ul class="input-list style-4 clearfix flex-center">
-            <li ng-repeat="input in inputs.source">
-                <section class="content" align="center">
-                    <span class="input input--manami" ng-class="{'input--filled': input.value !== ''}">
+            <li ng-repeat="input in inputs.source" class="near-glyph">
+                <section class="content inline-flex" align="center">
+                    <span class="input input--manami flex-child" ng-class="{'input--filled': input.value !== ''}">
                         <input class="input__field input__field--manami" type="{{input.type}}" id="{{input.id}}" ng-model="input.value" ng-change="input.onChange()"/>
                         <label class="input__label input__label--manami" for="{{input.id}}">
                             <span class="input__label-content input__label-content--manami" ng-bind="input.placeholder"></span>
                         </label>
                     </span>
+                    <span class="glyphicon glyphicon-stats my-glyph" ng-click="inputs.glyphHandler(input, inputs.findMaxBounds(input))"></span>
                 </section>
             </li>
         </ul>
     </section>
     <div class="hr" ng-if="inputs.index">
         <hr class="style-five">
+    </div>
+</script>
+
+<script type="text/ng-template" id="chooseOnGraphModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Оберіть значення на графіку.</h3>
+    </div>
+    <div class="modal-body">
+        <div class="values">
+            <h4>
+                <div class="pull-left">
+                    <span>Старе значення </span>
+                    <span class="bigger-font en" ng-bind="item.value | number : 4"></span>
+                </div>
+                <div class="pull-right">
+                    <span>Нове значення </span>
+                    <span class="bigger-font en" ng-bind="itemX | number : 4"></span>
+                </div>
+            </h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" type="button" ng-click="ok()">Обрати</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Відхилити</button>
     </div>
 </script>
 
@@ -50,7 +75,7 @@
 <script type="text/ng-template" id="/inputs-dynamic.html">
     <section ng-repeat="addition in inputsDynamic.source">
         <h3 class="text-center" ng-bind="inputsDynamic.text + ' ' + ($index + 1)"></h3>
-        <inputs source="addition">
+        <inputs source="addition" max-values="inputsDynamic.maxValues">
     </section>
     <div class="hr">
         <hr class="style-five">
@@ -84,7 +109,7 @@
             <div class="subtitle">
                 <h2>Визначте границі</h2>
             </div>
-            <inputs source="data.data.maxValues" index="3"></inputs>
+            <inputs source="data.data.maxValues" max-values="data.data.maxValues" data="data.data" index="3"></inputs>
         </div>
         <div id="s4" class="function" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
@@ -106,14 +131,14 @@
                 <h2>Початкові спостереження</h2>
             </div>
             <inputs source="data.data.starting" index="6" change-on-model></inputs>
-            <inputs-dynamic source="data.data.startingValues" text="'Початкове спостереження'" index="6"></inputs-dynamic>
+            <inputs-dynamic source="data.data.startingValues" max-values="data.data.maxValues" text="'Початкове спостереження'" index="6"></inputs-dynamic>
         </div>
         <div id="s7" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
                 <h2>Граничні спостереження</h2>
             </div>
             <inputs source="data.data.boundaries" index="7" change-on-model></inputs>
-            <inputs-dynamic source="data.data.boundariesValues" text="'Граничне спостереження'" index="7"></inputs-dynamic>
+            <inputs-dynamic source="data.data.boundariesValues" max-values="data.data.maxValues" text="'Граничне спостереження'" index="7"></inputs-dynamic>
         </div>
         <div id="s8" class="button margin-center">
             <buttons class="flex" buttons-source="data.data.buttonsSource" index="8"></buttons>

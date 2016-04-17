@@ -84,32 +84,32 @@ var data;
       maxValues: [{
         type: 'text',
         placeholder: 'x1 мін',
-        value: '',
+        value: 1,
       }, {
         type: 'text',
         placeholder: 'x1 макс',
-        value: ''
+        value: 10
       }, {
         type: 'text',
         placeholder: 'x2 мін',
-        value: ''
+        value: 1
       }, {
         type: 'text',
         placeholder: 'x2 макс',
-        value: ''
+        value: 10
       }, {
         type: 'text',
         placeholder: 'T макс',
-        value: ''
+        value: 10
       }],
       additions: [{
         type: 'text',
-        value: '',
+        value: 0,
         placeholder: 'Константа'
       }],
       boundaries: [{
         type: 'text',
-        value: '',
+        value: 0,
         placeholder: 'Кількість',
         round: true,
         affectTo: 'boundariesValues',
@@ -123,15 +123,15 @@ var data;
                 vm.data.boundariesValues[i] = [{
                   type: 'text',
                   placeholder: 'x1 гран',
-                  value: val ? getRandomArbitary(1, 10) : ''
+                  value: val ? getRandomArbitary(1, 10) : 1
                 }, {
                   type: 'text',
                   placeholder: 'x2 гран',
-                  value: val ? getRandomArbitary(1, 10) : ''
+                  value: val ? getRandomArbitary(1, 10) : 1
                 }, {
                   type: 'text',
                   placeholder: 'T гран',
-                  value: val ? getRandomArbitary(1, 10) : ''
+                  value: val ? getRandomArbitary(1, 10) : 1
                 }];
               }
             }
@@ -142,7 +142,7 @@ var data;
       boundariesValues: [],
       starting: [{
         type: 'text',
-        value: '',
+        value: 0,
         placeholder: 'Кількість',
         round: true,
         affectTo: 'startingValues',
@@ -156,11 +156,11 @@ var data;
                 vm.data.startingValues[i] = [{
                   type: 'text',
                   placeholder: 'x1 поч',
-                  value: val ? getRandomArbitary(1, 10) : ''
+                  value: val ? getRandomArbitary(1, 10) : 1
                 }, {
                   type: 'text',
                   placeholder: 'x2 поч',
-                  value: val ? getRandomArbitary(1, 10) : ''
+                  value: val ? getRandomArbitary(1, 10) : 1
                 }];
               }
             }
@@ -264,8 +264,8 @@ var data;
               default:
                 console.warn('UNHANDLED', v.placeholder);
             }
-          })
-        })
+          });
+        });
       });
       randData.maxValues[0].value = x1.min;
       randData.maxValues[1].value = x1.max;
@@ -343,10 +343,10 @@ var data;
 
   function StateService($state, $timeout) {
     function goLoader() {
-      $state.go("loader").then(
+      $state.go('loader').then(
         function() {
           $timeout(function() {
-             $state.go("graph");
+             $state.go('graph');
           }, 2000);
         }
       );
@@ -424,15 +424,17 @@ var data;
     };
   }
 
-  InputsDirective.$inject = ['helpers', '$timeout'];
+  InputsDirective.$inject = ['helpers', '$timeout', '$uibModal'];
 
-  function InputsDirective(helpers, $timeout) {
+  function InputsDirective(helpers, $timeout, $uibModal) {
     return {
       restrict: 'AE',
       replace: false,
       templateUrl: '/inputs.html',
       scope: {
-        source: '='
+        source: '=',
+        maxValues: '=',
+        data: '='
       },
       controllerAs: 'inputs',
       bindToController: true,
@@ -455,6 +457,180 @@ var data;
             helpers.appendScript('./source/js/libs/input/add.script.js');
           }
         );
+        $scope.inputs.glyphHandler = glyphHandler;
+        $scope.inputs.findMaxBounds = findMaxBounds;
+
+        function findMaxBounds(item) {
+          var placeholder = item.placeholder;
+          var isX1 = /^x1/.test(placeholder);
+          var isX2 = /^x2/.test(placeholder);
+          var isT = /^T/.test(placeholder);
+          var isMin = /мін/.test(placeholder);
+          var isMax = /макс/.test(placeholder);
+          var result = [];
+          var x1 = {};
+          var x2 = {};
+          var T = {};
+          $scope.inputs.data && _.each($scope.inputs.data, function(value, valueKey) {
+            _.each(value, function(val, valKey) {
+              angular.isArray(val) && _.each(val, function(v, vKey) {
+                switch (v.placeholder) {
+                  case 'x1 поч':
+                  case 'x1 гран':
+                    x1.min = _.min([x1.min, v.value]);
+                    x1.max = _.max([x1.max, v.value]);
+                    break;
+                  case 'x2 поч':
+                  case 'x2 гран':
+                    x2.min = _.min([x2.min, v.value]);
+                    x2.max = _.max([x2.max, v.value]);
+                    break;
+                  case 'T гран':
+                    T.max = _.max([T.max, v.value]);
+                    break;
+                  default:
+                    console.warn('UNHANDLED', v.placeholder);
+                }
+              });
+            });
+          });
+
+          if (!isMin && !isMax) {
+            if (isX1) {
+              result.push($scope.inputs.maxValues[0]);
+              result.push($scope.inputs.maxValues[1]);
+            } else if (isT) {
+              result.push(null);
+              result.push($scope.inputs.maxValues[4]);
+            } else if (isX2) {
+              result.push($scope.inputs.maxValues[2]);
+              result.push($scope.inputs.maxValues[3]);
+            } else {
+              result.push(null);
+              result.push(null);
+            }
+          } else if (isMin) {
+            if (isX1) {
+              result.push(null);
+              result.push({value: x1.min});
+            } else if (isX2) {
+              result.push(null);
+              result.push({value: x2.min});
+            }
+          } else if (isMax) {
+            if (isX1) {
+              result.push({value: x1.max});
+              result.push(null);
+            } else if (isT) {
+              result.push({value: T.max});
+              result.push(null);
+            } else if (isX2) {
+              result.push({value: x2.max});
+              result.push(null);
+            } else {
+              result.push({value: 0});
+              result.push(null);
+            }
+          }
+
+          return result;
+        }
+
+        function glyphHandler(item, maxBounds) {
+          var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'chooseOnGraphModal.html',
+            controller: function($scope, $uibModalInstance, item, $timeout, maxBounds) {
+              $scope.itemX = item.value;
+              $scope.item = item;
+              function initChart() {
+                var margin = 20;
+                var size = {
+                  height: 100,
+                  width: 400
+                };
+                var svgSize = {
+                  height: size.height - margin,
+                  width: size.width - margin
+                };
+
+                var xScale = d3.scale.linear()
+                  .domain([
+                    (maxBounds[0] && maxBounds[0].value) || Math.min((item.value - 2) * 2, (item.value - 2) / 2),
+                    (maxBounds[1] && maxBounds[1].value) || Math.max((item.value + 2) * 2, (item.value + 2) / 2)
+                  ])
+                  .range([margin, svgSize.width]);
+                var xAxis = d3.svg.axis()
+                  .scale(xScale)
+                  .orient("bottom");
+                var jsonCircles = [{
+                  'x_axis': xScale(item.value),
+                  'y_axis': svgSize.height,
+                  'radius': 5,
+                  'color' : 'green'
+                }];
+
+                var svgContainer = d3.select('.modal-body').append('svg')
+                  .attr('width', size.width)
+                  .attr('height', size.height)
+                  .attr('class', 'en')
+                  .style('display', 'block')
+                  .style('margin', 'auto')
+                  .on('mousemove', function() {
+                    var x = _.min([_.max([d3.mouse(this)[0], margin]), svgSize.width]);
+                    d3.select(this)
+                      .selectAll('circle')
+                      .attr('cx', x);
+                  })
+                  .on('mouseout', function() {
+                    var x = xScale($scope.itemX);
+                    d3.select(this)
+                      .selectAll('circle')
+                      .attr('cx', x);
+                  })
+                  .on('click', function() {
+                    var x = _.min([_.max([d3.mouse(this)[0], margin]), svgSize.width]);
+                    $scope.$apply(function() {
+                      $scope.itemX = item.round ? Math.round(xScale.invert(x)) : xScale.invert(x);
+                    });
+                  });
+                var xAxisGroup = svgContainer.append('g')
+                  .attr("transform", "translate(0," + svgSize.height + ")")
+                  .call(xAxis)
+                    .selectAll('text')
+                      .attr('class', 'en');
+                var circles = svgContainer.selectAll('circle')
+                  .data(jsonCircles)
+                  .enter()
+                  .append('circle');
+                var circleAttributes = circles
+                  .attr('cx', function (d) { return d.x_axis; })
+                  .attr('cy', function (d) { return d.y_axis; })
+                  .attr('r', function (d) { return d.radius; })
+                  .style('fill', function(d) { return d.color; });
+              }
+              $scope.ok = function () {
+                item.value = $scope.itemX;
+                $uibModalInstance.close();
+              };
+
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+              };
+              $uibModalInstance.rendered
+                .then(initChart);
+            },
+            size: 'lg',
+            resolve: {
+              item: function () {
+                return item;
+              },
+              maxBounds: function () {
+                return maxBounds;
+              }
+            }
+          });
+        }
       },
       controller: function($scope) {}
     };
@@ -493,6 +669,7 @@ var data;
       templateUrl: '/inputs-dynamic.html',
       scope: {
         source: '=',
+        maxValues: '=',
         text: '='
       },
       controllerAs: 'inputsDynamic',

@@ -8,6 +8,10 @@
   font-family: 'rusFont', 'Lato', Calibri, Arial, sans-serif;
 }
 
+.en {
+  font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+
 .main-page {
   position: absolute;
   width: 100%;
@@ -16,6 +20,17 @@
     background-color: inherit;
     ul.input-list li {
       margin-top: 10px;
+    }
+  }
+  .near-glyph {
+    &:hover .my-glyph {
+      display: block;
+    }
+    .my-glyph {
+      top: 30px;
+      position: relative;
+      display: none;
+      pointer-events: all;
     }
   }
   .blacky {
@@ -39,6 +54,9 @@
   }
   .flex {
     display: flex;
+  }
+  .inline-flex {
+    display: inline-flex;
   }
   .margin-center {
     margin: 0 auto;
@@ -123,6 +141,12 @@
   &.blue-page {
     background-color: #0ac2d2;
   }
+}
+.modal-dialog {
+  color: black;
+}
+.bigger-font {
+  font-size: 25px;
 }
 
 /* loader */
