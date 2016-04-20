@@ -15,6 +15,8 @@
         var vm = this;
         vm.goHome = goHome;
         vm.graphRender = graphRender;
+        vm.diff = Math.random().toFixed(4);
+        $('#solverDiff').html(vm.diff);
 
         $(window).on("message", function (e) {
             if (e.originalEvent.data.rendered) {
