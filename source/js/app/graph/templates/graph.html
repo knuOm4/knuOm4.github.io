@@ -1,15 +1,31 @@
-<div id="pt-graph" class="pt-page pt-page-3" style="overflow:auto;">
-    <div class="content">
-        <button type="button" class="btn btn-success" ng-click="graph.goHome()">
-            Повернутися
-        </button>
+<script type="application/javascript" src='./source/js/libs/button/snap.svg-min.js'></script>
+<script type="application/javascript" src='./source/js/libs/button/add.button.js'></script>
+<div style="margin-top: -50px">
+    <h1>
+        Розв`язок задачі<br>
+        та аналіз результатів
+    </h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-1 text-left" style="font-size: 36px; font-family: Arial;">
+            <p>В процесі розв`язку задачі ми отримали наближений розв`язок.</p>
+            <p>Він середньоквадратично задовільняє заданим початково<span class="en">-</span>крайовим умовам.</p>
+            <p>Задача була розв`язана для випадку з дискретними умовами та дискретними моделюючими функціями.</p>
+            <p class="redText">Похибка розв`язку<span class="en">:</span> <span id="solverDiff"></span></p>
+        </div>
+        <div class="col-md-6">
+            <iframe id="outI" src="./source/js/app/graph/templates/3-d/plot.html" frameborder="0" width="500" height="400"></iframe>
+        </div>
     </div>
-    <div id="wrapper">
-    <div class="info">
-        <h2>Аналіз результатів</h2>
-    </div>
-    </div>
-    <div class="3d" style="position:relative;margin: -100px 650px;">
-        <iframe id="outI" src="./source/js/app/graph/templates/3-d/plot.html" frameborder="0" width="500" height="400"></iframe>
-    </div>
+    <button class="button button--line button--effect-2 solver-button" ng-click="graph.goHome()">
+    <span class="morph-shape" data-morph-active="M282.5,62.5c0,27.891-17.583,50.176-46.5,53.5c-21.75,2.5-64.355,4-86,4c-21.645,0-65-1-86-4c-29.408-4.201-46.5-25.609-46.5-53.5l0,0C17.5,34.609,36.594,13.177,64,8c22.5-4.25,64.355-4,86-4c21.645,0,64.669,1.31,86,4C263.75,11.5,282.5,34.609,282.5,62.5L282.5,62.5z">
+        <svg width="100%" height="100%" viewBox="0 0 300 125" preserveAspectRatio="none">
+            <path d="M286.5,62.5C286.5,90.39099999999999,263.891,113,236,113C214.5,113,171.64499999999998,113,150,113C128.355,113,85.5,113,64,113C36.109,113,13.5,90.39099999999999,13.5,62.5C13.5,62.5,13.5,62.5,13.5,62.5C13.5,34.609,36.109,12,64,12C85.5,12,128.35500000000002,12,150,12C171.645,12,214.5,12,236,12C263.891,12,286.5,34.609,286.5,62.5C286.5,62.5,286.5,62.5,286.5,62.5C286.5,62.5,286.5,62.5,286.5,62.5"></path>
+        </svg>
+    </span>
+    <span class="button__text">
+        <a>Повернутися</a>
+    </span>
+    </button>
 </div>

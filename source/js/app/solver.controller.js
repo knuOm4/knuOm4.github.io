@@ -19,6 +19,8 @@
       switch ($location.path()) {
         case '/data':
           return 'blue-page';
+        case '/graph':
+          return 'green-page';
         default:
           return '';
       }
