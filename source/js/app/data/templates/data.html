@@ -84,7 +84,8 @@
 
 <div>
     <h1>
-        <span>Solver</span>Дискретні спостереження та моделюючі функції
+        <span>Solver</span>
+        Математичне моделювання процесів з заданими дискретними спостереженнями за допомогою дискретних моделюючих функцій
         <br>
         <strong>JYRIK team</strong>
     </h1>
@@ -95,47 +96,45 @@
         </div>
         <div class="type" id="s1">
             <span class="subtitle">
-                <h2>Тип задачі</h2>
+                <h2>Яка задача?</h2>
             </span>
             <checkbox source="data.data.typeSource" index="1"></checkbox>
         </div>
         <div class="diff" id="s2" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
-                <h2>Оберіть диф оператор</h2>
+                <h2>Оберіть диференціальний оператор</h2>
             </div>
             <checkbox source="data.data.diffOper" index="2"></checkbox>
         </div>
         <div class="bounds" id="s3" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
-                <h2>Визначте границі</h2>
+                <h2>Визначте границі спостереження процесу</h2>
             </div>
             <inputs source="data.data.maxValues" max-values="data.data.maxValues" data="data.data" index="3"></inputs>
         </div>
         <div id="s4" class="function" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
-                <h2>Оберіть
-                    <span class="en">
-                        y(s)</span>
+                <h2>Оберіть функцію стану системи
                 </h2>
                 <checkbox source="data.data.yByS" index="4"></checkbox>
             </div>
         </div>
         <div id="s5" class="additions" ng-show="data.data.typeSource.test.value">
             <div class="subtitle">
-                <h2>Додаткові параметри</h2>
+                <h2>Введіть додаткові параметри</h2>
             </div>
             <inputs source="data.data.additions" index="5"></inputs>
         </div>
         <div id="s6" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
-                <h2>Початкові спостереження</h2>
+                <h2>Які початкові умови?</h2>
             </div>
             <inputs source="data.data.starting" index="6" change-on-model></inputs>
             <inputs-dynamic source="data.data.startingValues" max-values="data.data.maxValues" text="'Початкове спостереження'" index="6"></inputs-dynamic>
         </div>
         <div id="s7" ng-show="data.data.typeSource.test.value || data.data.typeSource.real.value">
             <div class="subtitle">
-                <h2>Граничні спостереження</h2>
+                <h2>Які граничні умови?</h2>
             </div>
             <inputs source="data.data.boundaries" index="7" change-on-model></inputs>
             <inputs-dynamic source="data.data.boundariesValues" max-values="data.data.maxValues" text="'Граничне спостереження'" index="7"></inputs-dynamic>
