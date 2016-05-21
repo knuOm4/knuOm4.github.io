@@ -49,9 +49,10 @@
         window.mathboxScript = [
             // clean, switch to polar, show axis grid
             [
-                ['remove', '#surf']
+                ['remove', '#surf'],
+                ['remove', '#dots'],
             ]
-        ]
+        ];
 
         window.mathboxSetupBase = function (mathbox, assets, data, i) {
             var new_div = document.createElement('div');
@@ -101,7 +102,7 @@
                         zero: false,
                         labels: true,
                     })
-        }
+        };
 
         window.mathboxSetup = function (mathbox, assets, data, i) {
 
@@ -116,7 +117,7 @@
             // Cartesian viewport
                     .surface({
                         id: 'surf',
-                        n: [90, 90],
+                        n: [45, 45],
                         color: 0xffffff,
                         shaded: true,
                         map: assets['texture'], // Asset name is the filename without extension
@@ -127,6 +128,17 @@
                             [data.a.x2, data.b.x2]
                         ],
                         data: data.answer[i.val]
+                    })
+                    .curve({
+                        n: data.points[i.val].length,
+                        id: "dots",
+                        points: true,
+                        line: false,
+                        pointSize: 20,
+                        live: true,
+                        expression: function(x, index) {
+                            return data.points[i.val][index];
+                        }
                     });
 
             if (i.val >= data.answer.length - 1)
@@ -150,7 +162,7 @@
             this.a = {
                 x: 0,
                 y: 0
-            }
+            };
             var i = 0,
                     j = 0;
             var xi = this.a.x + i * this.h;

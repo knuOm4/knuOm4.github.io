@@ -33,18 +33,39 @@
         }
 
         function graphRender() {
-            var graphInterface = new Interface(data);
+            var graphInterface = new Interface(data),
+                len = graphInterface.T / 0.1 + 1,
+                answer = new Array();
 
-            var len = graphInterface.T / 0.1 + 1;
-            var answer = new Array();
             for (var i = 0, t = 0; i < len; ++i, t += 0.1) {
                 answer[i] = getAnswerArray(graphInterface.a, graphInterface.b, t, graphInterface.answer);
             }
+
+            var observePointsInTime = [];
+
+            for (var i = 0; i < graphInterface.n2; ++i) {
+                var observePoints = [],
+                    t = i * 0.1,
+                    pushFunc = function (item) {
+                        observePoints.push([
+                            item[0],
+                            graphInterface.answer(item[0], item[1], t),
+                            item[1]
+                        ]);
+                    };
+
+                graphInterface.beginCondition.forEach(pushFunc);
+                graphInterface.borderCondition.forEach(pushFunc);
+
+                observePointsInTime.push(observePoints);
+            }
+
             var iFrame = $('#outI');
             iFrame[0].contentWindow.postMessage({
                 'answer': answer,
                 'a': graphInterface.a,
-                'b': graphInterface.b
+                'b': graphInterface.b,
+                'points': observePointsInTime
             }, document.location);
         }
 
@@ -64,6 +85,9 @@
             this.b.x2 = +data.maxValues[3].value || def_b;
 
             this.T = +data.maxValues[4].value || def_T;
+
+            this.n2 = this.T / 0.1 + 1;
+
             this.const = +data.additions[0].value || 1;
 
             this.beginCondition = [];
@@ -72,14 +96,16 @@
             if (data.yByS[0].value !== false)
                 this.answer = function (x1, x2, t) {
                     return Math.sin(x1 * x1 + x2 * x2) * t * t;
-                }
+                };
             else if (data.yByS[1].value !== false) {
                 this.answer = function (x1, x2, t) {
                     return Math.sin(x1) * x2 * x2 + t * t;
-                }
+                };
             }
             this.parseArrays(data.startingValues, data.boundariesValues);
         }
+
+        Interface.n1 = 45;
 
         /**
          * This part isn't need right now, but should be
@@ -189,7 +215,7 @@
 
         function getAnswerArray(a, b, t, f) {
             //сетка - параметр n из MathBox
-            var n1 = 90;
+            var n1 = Interface.n1;
             //Сетка моделирующих функций.
             var n2 = 4;
             //Шаг на 1-й сетке от i-го узла 2-й сетки до (i+1)-го узла 2-й сетки
