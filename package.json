@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "checkNodeVersion": "n 5.10.1",
     "runServer": "ws"
   },
   "repository": {
@@ -21,8 +20,7 @@
     "url": "https://github.com/knuOm4/knuOm4.github.io/issues"
   },
   "devDependencies": {
-    "local-web-server": "^1.2.1",
-    "n": "^2.1.0"
+    "local-web-server": "^1.2.1"
   },
   "homepage": "https://github.com/knuOm4/knuOm4.github.io#readme"
 }

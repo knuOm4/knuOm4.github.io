@@ -29,6 +29,12 @@ var data;
 
   function SolverDataController($scope, states, $rootScope, $state, CacheFactory, helpers) {
     var vm = this;
+
+    function Point(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+
     var dataCache = CacheFactory.get('dataCache') || CacheFactory.createCache('dataCache');
     var defaultData = vm.defaultData = {
       typeSource: {
@@ -81,27 +87,34 @@ var data;
         class: 'en',
         value: false
       }],
-      maxValues: [{
-        type: 'text',
-        placeholder: 'x1 мін',
-        value: 1,
-      }, {
-        type: 'text',
-        placeholder: 'x1 макс',
-        value: 10
-      }, {
-        type: 'text',
-        placeholder: 'x2 мін',
-        value: 1
-      }, {
-        type: 'text',
-        placeholder: 'x2 макс',
-        value: 10
-      }, {
-        type: 'text',
-        placeholder: 'T макс',
-        value: 10
-      }],
+      maxValues: [
+        new Point({
+          type: 'text',
+          placeholder: 'x1 мін',
+          value: 1,
+        }, {
+          type: 'text',
+          placeholder: 'x2 мін',
+          value: 1
+        }),
+        new Point({
+          type: 'text',
+          placeholder: 'x1 макс',
+          value: 10
+        }, {
+          type: 'text',
+          placeholder: 'x2 макс',
+          value: 10
+        }),
+        new Point(
+          null,
+          {
+            type: 'text',
+            placeholder: 'T макс',
+            value: 10
+          }
+        )
+      ],
       additions: [{
         type: 'text',
         value: 0,
@@ -120,19 +133,27 @@ var data;
             vm.data.boundariesValues.length = newV || 0;
             if (newV > oldV) {
               for (var i = oldV; i < vm.data.boundariesValues.length; i++) {
-                vm.data.boundariesValues[i] = [{
-                  type: 'text',
-                  placeholder: 'x1 гран',
-                  value: val ? getRandomArbitary(1, 10) : 1
-                }, {
-                  type: 'text',
-                  placeholder: 'x2 гран',
-                  value: val ? getRandomArbitary(1, 10) : 1
-                }, {
-                  type: 'text',
-                  placeholder: 'T гран',
-                  value: val ? getRandomArbitary(1, 10) : 1
-                }];
+                vm.data.boundariesValues[i] = [
+                  new Point(
+                    {
+                      type: 'text',
+                      placeholder: 'x1 гран',
+                      value: val ? getRandomArbitary(1, 10).toPrecision(3) : 1
+                    }, {
+                      type: 'text',
+                      placeholder: 'x2 гран',
+                      value: val ? getRandomArbitary(1, 10).toPrecision(3) : 1
+                    }
+                  ),
+                  new Point(
+                    null,
+                    {
+                      type: 'text',
+                      placeholder: 'T гран',
+                      value: val ? getRandomArbitary(1, 10).toPrecision(3) : 1
+                    }
+                  )
+                ];
               }
             }
             return vm.data.boundariesValues;
@@ -153,15 +174,18 @@ var data;
             vm.data.startingValues.length = newV || 0;
             if (newV > oldV) {
               for (var i = oldV; i < vm.data.startingValues.length; i++) {
-                vm.data.startingValues[i] = [{
-                  type: 'text',
-                  placeholder: 'x1 поч',
-                  value: val ? getRandomArbitary(1, 10) : 1
-                }, {
-                  type: 'text',
-                  placeholder: 'x2 поч',
-                  value: val ? getRandomArbitary(1, 10) : 1
-                }];
+                vm.data.startingValues[i] = [
+                  new Point(
+                    {
+                      type: 'text',
+                      placeholder: 'x1 поч',
+                      value: val ? getRandomArbitary(1, 10).toPrecision(3) : 1
+                    }, {
+                      type: 'text',
+                      placeholder: 'x2 поч',
+                      value: val ? getRandomArbitary(1, 10).toPrecision(3) : 1
+                    }
+                  )];
               }
             }
             return vm.data.startingValues;
@@ -219,7 +243,7 @@ var data;
 
       _.each(defaultData, function(value, valueKey) {
         _.some(value, function(val, valKey) {
-          switch (val.type) {
+          switch ((val.x && val.x.type || val.y && val.y.type) || val.type) {
             case 'radio':
               if (!val.disabled) {
                 randData[valueKey][valKey].value = true;
@@ -227,16 +251,34 @@ var data;
               }
               break;
             case 'text':
-              if (!val.disabled) {
-                randData[valueKey][valKey].value = getRandomArbitary(1, 10);
+              if (val.x && !val.x.disabled) {
+                randData[valueKey][valKey].x.value = getRandomArbitary(1, 10).toPrecision(3);
+                if (val.x.round) {
+                  randData[valueKey][valKey].x.value = Math.round(randData[valueKey][valKey].x.value);
+                }
+                if (val.x.onChange) {
+                  randData[val.x.affectTo] = val.x.onChange(randData[valueKey][valKey].x.value);
+                }
+              }
+              if (val.y && !val.y.disabled) {
+                randData[valueKey][valKey].y.value = getRandomArbitary(1, 10).toPrecision(3);
+                if (val.y.round) {
+                  randData[valueKey][valKey].y.value = Math.round(randData[valueKey][valKey].y.value);
+                }
+                if (val.y.onChange) {
+                  randData[val.y.affectTo] = val.y.onChange(randData[valueKey][valKey].y.value);
+                }
+              }
+              if (_.has(val, 'value') && !val.disabled) {
+                randData[valueKey][valKey].value = getRandomArbitary(1, 10).toPrecision(3);
                 if (val.round) {
                   randData[valueKey][valKey].value = Math.round(randData[valueKey][valKey].value);
                 }
                 if (val.onChange) {
                   randData[val.affectTo] = val.onChange(randData[valueKey][valKey].value);
                 }
-                return false;
               }
+              return false;
               break;
             default:
               return false;
@@ -247,31 +289,51 @@ var data;
       _.each(randData, function(value, valueKey) {
         _.each(value, function(val, valKey) {
           angular.isArray(val) && _.each(val, function(v, vKey) {
-            switch (v.placeholder) {
-              case 'x1 поч':
-              case 'x1 гран':
-                x1.min = _.min([x1.min, v.value]);
-                x1.max = _.max([x1.max, v.value]);
-                break;
-              case 'x2 поч':
-              case 'x2 гран':
-                x2.min = _.min([x2.min, v.value]);
-                x2.max = _.max([x2.max, v.value]);
-                break;
-              case 'T гран':
-                T.max = _.max([T.max, v.value]);
-                break;
-              default:
-                console.warn('UNHANDLED', v.placeholder);
+            if (v.x) {
+              switch (v.x.placeholder) {
+                case 'x1 поч':
+                case 'x1 гран':
+                  x1.min = _.min([x1.min, v.x.value]);
+                  x1.max = _.max([x1.max, v.x.value]);
+                  break;
+                case 'x2 поч':
+                case 'x2 гран':
+                  x2.min = _.min([x2.min, v.x.value]);
+                  x2.max = _.max([x2.max, v.x.value]);
+                  break;
+                case 'T гран':
+                  T.max = _.max([T.max, v.x.value]);
+                default:
+                  console.warn('UNHANDLED', v.x.placeholder);
+              }
             }
+            if (v.y) {
+              switch (v.y.placeholder) {
+                case 'x1 поч':
+                case 'x1 гран':
+                  x1.min = _.min([x1.min, v.y.value]);
+                  x1.max = _.max([x1.max, v.y.value]);
+                  break;
+                case 'x2 поч':
+                case 'x2 гран':
+                  x2.min = _.min([x2.min, v.y.value]);
+                  x2.max = _.max([x2.max, v.y.value]);
+                  break;
+                case 'T гран':
+                  T.max = _.max([T.max, v.y.value]);
+                default:
+                  console.warn('UNHANDLED', v.y.placeholder);
+              }
+            }
+
           });
         });
       });
-      randData.maxValues[0].value = x1.min;
-      randData.maxValues[1].value = x1.max;
-      randData.maxValues[2].value = x2.min;
-      randData.maxValues[3].value = x2.max;
-      randData.maxValues[4].value = T.max;
+      randData.maxValues[0].x.value = x1.min;
+      randData.maxValues[1].x.value = x1.max;
+      randData.maxValues[0].y.value = x2.min;
+      randData.maxValues[1].y.value = x2.max;
+      randData.maxValues[2].y.value =T.max;
       dataCache.put('data', randData);
       states.goData();
     }
@@ -461,77 +523,76 @@ var data;
         $scope.inputs.findMaxBounds = findMaxBounds;
 
         function findMaxBounds(item) {
-          var placeholder = item.placeholder;
-          var isX1 = /^x1/.test(placeholder);
-          var isX2 = /^x2/.test(placeholder);
-          var isT = /^T/.test(placeholder);
-          var isMin = /мін/.test(placeholder);
-          var isMax = /макс/.test(placeholder);
-          var result = [];
-          var x1 = {};
-          var x2 = {};
-          var T = {};
-          $scope.inputs.data && _.each($scope.inputs.data, function(value, valueKey) {
-            _.each(value, function(val, valKey) {
-              angular.isArray(val) && _.each(val, function(v, vKey) {
-                switch (v.placeholder) {
-                  case 'x1 поч':
-                  case 'x1 гран':
-                    x1.min = _.min([x1.min, v.value]);
-                    x1.max = _.max([x1.max, v.value]);
-                    break;
-                  case 'x2 поч':
-                  case 'x2 гран':
-                    x2.min = _.min([x2.min, v.value]);
-                    x2.max = _.max([x2.max, v.value]);
-                    break;
-                  case 'T гран':
-                    T.max = _.max([T.max, v.value]);
-                    break;
-                  default:
-                    console.warn('UNHANDLED', v.placeholder);
-                }
-              });
-            });
-          });
+          // var placeholder = item.placeholder;
+          // var isX1 = /^x1/.test(placeholder);
+          // var isX2 = /^x2/.test(placeholder);
+          // var isT = /^T/.test(placeholder);
+          // var isMin = /мін/.test(placeholder);
+          // var isMax = /макс/.test(placeholder);
+          var result = {
+            x: [],
+            y: []
+          };
+          // var x1 = {};
+          // var x2 = {};
+          // var T = {};
+          // $scope.inputs.data && _.each($scope.inputs.data, function(value, valueKey) {
+          //   _.each(value, function(val, valKey) {
+          //     angular.isArray(val) && _.each(val, function(v, vKey) {
+          //       switch (v.x && v.x.placeholder) {
+          //         case 'x1 поч':
+          //         case 'x1 гран':
+          //           x1.min = _.min([x1.min, v.value]);
+          //           x1.max = _.max([x1.max, v.value]);
+          //           break;
+          //         case 'x2 поч':
+          //         case 'x2 гран':
+          //           x2.min = _.min([x2.min, v.value]);
+          //           x2.max = _.max([x2.max, v.value]);
+          //           break;
+          //         case 'T гран':
+          //           T.max = _.max([T.max, v.value]);
+          //           break;
+          //         default:
+          //           console.warn('UNHANDLED', v.placeholder);
+          //       }
+          //       switch (v.y && v.y.placeholder) {
+          //         case 'x1 поч':
+          //         case 'x1 гран':
+          //           x1.min = _.min([x1.min, v.value]);
+          //           x1.max = _.max([x1.max, v.value]);
+          //           break;
+          //         case 'x2 поч':
+          //         case 'x2 гран':
+          //           x2.min = _.min([x2.min, v.value]);
+          //           x2.max = _.max([x2.max, v.value]);
+          //           break;
+          //         case 'T гран':
+          //           T.max = _.max([T.max, v.value]);
+          //           break;
+          //         default:
+          //           console.warn('UNHANDLED', v.placeholder);
+          //       }
+          //     });
+          //   });
+          // });
 
-          if (!isMin && !isMax) {
-            if (isX1) {
-              result.push($scope.inputs.maxValues[0]);
-              result.push($scope.inputs.maxValues[1]);
-            } else if (isT) {
-              result.push(null);
-              result.push($scope.inputs.maxValues[4]);
-            } else if (isX2) {
-              result.push($scope.inputs.maxValues[2]);
-              result.push($scope.inputs.maxValues[3]);
-            } else {
-              result.push(null);
-              result.push(null);
-            }
-          } else if (isMin) {
-            if (isX1) {
-              result.push(null);
-              result.push({value: x1.min});
-            } else if (isX2) {
-              result.push(null);
-              result.push({value: x2.min});
-            }
-          } else if (isMax) {
-            if (isX1) {
-              result.push({value: x1.max});
-              result.push(null);
-            } else if (isT) {
-              result.push({value: T.max});
-              result.push(null);
-            } else if (isX2) {
-              result.push({value: x2.max});
-              result.push(null);
-            } else {
-              result.push({value: 0});
-              result.push(null);
-            }
-          }
+          // if (!isMin && !isMax) {
+            result.x = $scope.inputs.maxValues[0];
+            // result.x.push($scope.inputs.maxValues[0].y);
+            result.y = $scope.inputs.maxValues[1];
+            // result.y.push($scope.inputs.maxValues[1].y);
+          // } else if (isMin) {
+          //   result.x.push(null);
+          //   result.x.push({value: x1.min});
+          //   result.y.push(null);
+          //   result.y.push({value: x2.min});
+          // } else if (isMax) {
+          //   result.x.push({value: x1.max});
+          //   result.x.push(null);
+          //   result.y.push({value: x2.max});
+          //   result.y.push(null);
+          // }
 
           return result;
         }
@@ -541,31 +602,42 @@ var data;
             animation: true,
             templateUrl: 'chooseOnGraphModal.html',
             controller: function($scope, $uibModalInstance, item, $timeout, maxBounds) {
-              $scope.itemX = item.value;
+              $scope.itemX = item.x.value;
+              $scope.itemY = item.y.value;
               $scope.item = item;
               function initChart() {
                 var margin = 20;
                 var size = {
-                  height: 100,
+                  height: 300,
                   width: 400
                 };
                 var svgSize = {
                   height: size.height - margin,
                   width: size.width - margin
                 };
-
                 var xScale = d3.scale.linear()
                   .domain([
-                    (maxBounds[0] && maxBounds[0].value) || Math.min((item.value - 2) * 2, (item.value - 2) / 2),
-                    (maxBounds[1] && maxBounds[1].value) || Math.max((item.value + 2) * 2, (item.value + 2) / 2)
+                    (maxBounds.x.x && maxBounds.x.x.value) || Math.min((item.x.value - 2) * 2, (item.x.value - 2) / 2),
+                    (maxBounds.y.x && maxBounds.y.x.value) || Math.max((item.x.value + 2) * 2, (item.x.value + 2) / 2)
                   ])
-                  .range([margin, svgSize.width]);
+                  .range([margin * 2, svgSize.width]);
+                var yScale = d3.scale.linear()
+                  .domain([
+                    (maxBounds.y.y && maxBounds.y.y.value) || Math.min((item.y.value - 2) * 2, (item.y.value - 2) / 2),
+                    (maxBounds.x.y && maxBounds.x.y.value) || Math.max((item.y.value + 2) * 2, (item.y.value + 2) / 2)
+                  ])
+                  .range([margin, svgSize.height]);
                 var xAxis = d3.svg.axis()
                   .scale(xScale)
-                  .orient("bottom");
+                  .orient("bottom")
+                  .ticks(5);
+                var yAxis = d3.svg.axis()
+                  .scale(yScale)
+                  .orient("left")
+                  .ticks(5);
                 var jsonCircles = [{
-                  'x_axis': xScale(item.value),
-                  'y_axis': svgSize.height,
+                  'x_axis': xScale(item.x.value),
+                  'y_axis': yScale(item.y.value),
                   'radius': 5,
                   'color' : 'green'
                 }];
@@ -577,10 +649,12 @@ var data;
                   .style('display', 'block')
                   .style('margin', 'auto')
                   .on('mousemove', function() {
-                    var x = _.min([_.max([d3.mouse(this)[0], margin]), svgSize.width]);
+                    var x = _.min([_.max([d3.mouse(this)[0], margin * 2]), svgSize.width]);
+                    var y = _.min([_.max([d3.mouse(this)[1], margin * 2 - 10]), svgSize.height]);
                     d3.select(this)
                       .selectAll('circle')
-                      .attr('cx', x);
+                      .attr('cx', x)
+                      .attr('cy', y);
                   })
                   .on('mouseout', function() {
                     var x = xScale($scope.itemX);
@@ -589,14 +663,36 @@ var data;
                       .attr('cx', x);
                   })
                   .on('click', function() {
-                    var x = _.min([_.max([d3.mouse(this)[0], margin]), svgSize.width]);
+                    var x = _.min([_.max([d3.mouse(this)[0], margin * 2]), svgSize.width]);
+                    var y = _.min([_.max([d3.mouse(this)[1], margin * 2 - 10]), svgSize.height]);
                     $scope.$apply(function() {
                       $scope.itemX = item.round ? Math.round(xScale.invert(x)) : xScale.invert(x);
+                      $scope.itemY = item.round ? Math.round(yScale.invert(y)) : yScale.invert(y);
                     });
                   });
+                svgContainer.append("g")
+                  .attr("class", "grid")
+                  .attr("transform", "translate(0," + svgSize.height + ")")
+                  .call(
+                    xAxis
+                      .tickSize(-svgSize.height, 0, 0)
+                  );
+
+                svgContainer.append("g")
+                  .attr("class", "grid")
+                  .call(
+                    yAxis
+                      .tickSize(-svgSize.width, 0, 0)
+                  );
                 var xAxisGroup = svgContainer.append('g')
                   .attr("transform", "translate(0," + svgSize.height + ")")
                   .call(xAxis)
+                    .selectAll('text')
+                      .attr('class', 'en');
+                var yAxisGroup = svgContainer.append('g')
+                  .attr("transform", "translate(" + (margin * 2 - 10) + ", 0)")
+                  .call(yAxis)
+                  .style('fill', function(d) { return 'black'; })
                     .selectAll('text')
                       .attr('class', 'en');
                 var circles = svgContainer.selectAll('circle')
@@ -610,7 +706,8 @@ var data;
                   .style('fill', function(d) { return d.color; });
               }
               $scope.ok = function () {
-                item.value = $scope.itemX;
+                item.x.value = $scope.itemX.toPrecision(3);
+                item.y.value = $scope.itemY.toPrecision(3);
                 $uibModalInstance.close();
               };
 
