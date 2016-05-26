@@ -79,12 +79,12 @@
             this.a = {};
             this.b = {};
 
-            this.a.x1 = +data.maxValues[0].value || def_a;
-            this.b.x1 = +data.maxValues[1].value || def_b;
-            this.a.x2 = +data.maxValues[2].value || def_a;
-            this.b.x2 = +data.maxValues[3].value || def_b;
+            this.a.x1 = +data.maxValues[0].x.value || def_a;
+            this.b.x1 = +data.maxValues[1].x.value || def_b;
+            this.a.x2 = +data.maxValues[0].y.value || def_a;
+            this.b.x2 = +data.maxValues[1].y.value || def_b;
 
-            this.T = +data.maxValues[4].value || def_T;
+            this.T = +data.maxValues[2].y.value || def_T;
 
             this.n2 = this.T / 0.1 + 1;
 
@@ -177,8 +177,8 @@
             for (var i = 0; i < start.length; ++i) {
                 this.beginCondition[i] = new Array();
 
-                this.beginCondition[i][0] = +start[i][0].value;
-                this.beginCondition[i][1] = +start[i][1].value;
+                this.beginCondition[i][0] = +start[i][0].x.value;
+                this.beginCondition[i][1] = +start[i][0].y.value;
                 this.beginCondition[i][2] = this.answer(this.beginCondition[i][0], this.beginCondition[i][1], 0);
             }
 
@@ -186,9 +186,9 @@
                 this.borderCondition[i] = new Array();
                 this.rightSide[i] = new Array();
 
-                this.borderCondition[i][0] = +boundaries[i][0].value;
-                this.borderCondition[i][1] = +boundaries[i][1].value;
-                this.borderCondition[i][2] = +boundaries[i][2].value;
+                this.borderCondition[i][0] = +boundaries[i][0].x.value;
+                this.borderCondition[i][1] = +boundaries[i][0].y.value;
+                this.borderCondition[i][2] = +boundaries[i][1].y.value;
                 this.borderCondition[i][3] = this.answer(this.borderCondition[i][0], this.borderCondition[i][1], this.borderCondition[i][2]);
 
                 this.rightSide[i][0] = this.borderCondition[i][0];

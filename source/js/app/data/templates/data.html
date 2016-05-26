@@ -17,7 +17,29 @@
 <script type="text/ng-template" id="/inputs.html">
     <section>
         <ul class="input-list style-4 clearfix flex-center">
-            <li ng-repeat="input in inputs.source" class="near-glyph">
+            <li ng-repeat="input in inputs.source" class="near-glyph" ng-if="input.x">
+                <section class="content inline-flex" align="center">
+                    <span class="input input--manami flex-child" ng-class="{'input--filled': input.x.value !== ''}">
+                        <input class="input__field input__field--manami" type="{{input.x.type}}" id="{{input.x.id}}" ng-model="input.x.value" ng-change="input.x.onChange()"/>
+                        <label class="input__label input__label--manami" for="{{input.x.id}}">
+                            <span class="input__label-content input__label-content--manami" ng-bind="input.x.placeholder"></span>
+                        </label>
+                    </span>
+                    <span class="glyphicon glyphicon-stats my-glyph" ng-if="input.y && input.x" ng-click="inputs.glyphHandler(input, inputs.findMaxBounds(input))"></span>
+                </section>
+            </li>
+            <li ng-repeat="input in inputs.source" class="near-glyph" ng-if="input.y">
+                <section class="content inline-flex" align="center">
+                    <span class="input input--manami flex-child" ng-class="{'input--filled': input.y.value !== ''}">
+                        <input class="input__field input__field--manami" type="{{input.y.type}}" id="{{input.y.id}}" ng-model="input.y.value" ng-change="input.y.onChange()"/>
+                        <label class="input__label input__label--manami" for="{{input.y.id}}">
+                            <span class="input__label-content input__label-content--manami" ng-bind="input.y.placeholder"></span>
+                        </label>
+                    </span>
+                    <span class="glyphicon glyphicon-stats my-glyph" ng-if="input.y && input.x" ng-click="inputs.glyphHandler(input, inputs.findMaxBounds(input))"></span>
+                </section>
+            </li>
+            <li ng-repeat="input in inputs.source" class="near-glyph" ng-if="!input.y && !input.x">
                 <section class="content inline-flex" align="center">
                     <span class="input input--manami flex-child" ng-class="{'input--filled': input.value !== ''}">
                         <input class="input__field input__field--manami" type="{{input.type}}" id="{{input.id}}" ng-model="input.value" ng-change="input.onChange()"/>
@@ -25,7 +47,6 @@
                             <span class="input__label-content input__label-content--manami" ng-bind="input.placeholder"></span>
                         </label>
                     </span>
-                    <span class="glyphicon glyphicon-stats my-glyph" ng-click="inputs.glyphHandler(input, inputs.findMaxBounds(input))"></span>
                 </section>
             </li>
         </ul>
@@ -44,11 +65,14 @@
             <h4>
                 <div class="pull-left">
                     <span>Старе значення </span>
-                    <span class="bigger-font en" ng-bind="item.value | number : 4"></span>
+                    <span class="bigger-font en" ng-bind="item.x.value | number : 4"></span>
+                    ,
+                    <span class="bigger-font en" ng-bind="item.y.value | number : 4"></span>
                 </div>
                 <div class="pull-right">
                     <span>Нове значення </span>
-                    <span class="bigger-font en" ng-bind="itemX | number : 4"></span>
+                    <span class="bigger-font en" ng-bind="itemX | number : 4"></span>,
+                    <span class="bigger-font en" ng-bind="itemY | number : 4"></span>
                 </div>
             </h4>
         </div>
