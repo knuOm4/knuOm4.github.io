@@ -39,15 +39,15 @@ var data;
     var defaultData = vm.defaultData = {
       typeSource: {
         test: {
-          label: 'Тестова задача',
+          label: 'Реальні данні',
           class: 'rus',
           type: 'radio',
           name: 'type',
           value: false
         },
         real: {
-          label: 'Реальні данні',
-          disabled: true,
+          label: 'Тестова задача',
+          disabled: false,
           class: 'rus',
           type: 'radio',
           name: 'type',
@@ -55,7 +55,7 @@ var data;
         }
       },
       yByS: [{
-        label: 'sin(x<sub>1</sub><sup>2</sup>+x<sub>2</sub><sup>2</sup>)t<sup>2</sup>',
+        label: 'new',
         class: 'en',
         type: 'radio',
         name: 'yByS',
@@ -523,76 +523,10 @@ var data;
         $scope.inputs.findMaxBounds = findMaxBounds;
 
         function findMaxBounds(item) {
-          // var placeholder = item.placeholder;
-          // var isX1 = /^x1/.test(placeholder);
-          // var isX2 = /^x2/.test(placeholder);
-          // var isT = /^T/.test(placeholder);
-          // var isMin = /мін/.test(placeholder);
-          // var isMax = /макс/.test(placeholder);
           var result = {
-            x: [],
-            y: []
+            x: $scope.inputs.maxValues[0],
+            y: $scope.inputs.maxValues[1]
           };
-          // var x1 = {};
-          // var x2 = {};
-          // var T = {};
-          // $scope.inputs.data && _.each($scope.inputs.data, function(value, valueKey) {
-          //   _.each(value, function(val, valKey) {
-          //     angular.isArray(val) && _.each(val, function(v, vKey) {
-          //       switch (v.x && v.x.placeholder) {
-          //         case 'x1 поч':
-          //         case 'x1 гран':
-          //           x1.min = _.min([x1.min, v.value]);
-          //           x1.max = _.max([x1.max, v.value]);
-          //           break;
-          //         case 'x2 поч':
-          //         case 'x2 гран':
-          //           x2.min = _.min([x2.min, v.value]);
-          //           x2.max = _.max([x2.max, v.value]);
-          //           break;
-          //         case 'T гран':
-          //           T.max = _.max([T.max, v.value]);
-          //           break;
-          //         default:
-          //           console.warn('UNHANDLED', v.placeholder);
-          //       }
-          //       switch (v.y && v.y.placeholder) {
-          //         case 'x1 поч':
-          //         case 'x1 гран':
-          //           x1.min = _.min([x1.min, v.value]);
-          //           x1.max = _.max([x1.max, v.value]);
-          //           break;
-          //         case 'x2 поч':
-          //         case 'x2 гран':
-          //           x2.min = _.min([x2.min, v.value]);
-          //           x2.max = _.max([x2.max, v.value]);
-          //           break;
-          //         case 'T гран':
-          //           T.max = _.max([T.max, v.value]);
-          //           break;
-          //         default:
-          //           console.warn('UNHANDLED', v.placeholder);
-          //       }
-          //     });
-          //   });
-          // });
-
-          // if (!isMin && !isMax) {
-            result.x = $scope.inputs.maxValues[0];
-            // result.x.push($scope.inputs.maxValues[0].y);
-            result.y = $scope.inputs.maxValues[1];
-            // result.y.push($scope.inputs.maxValues[1].y);
-          // } else if (isMin) {
-          //   result.x.push(null);
-          //   result.x.push({value: x1.min});
-          //   result.y.push(null);
-          //   result.y.push({value: x2.min});
-          // } else if (isMax) {
-          //   result.x.push({value: x1.max});
-          //   result.x.push(null);
-          //   result.y.push({value: x2.max});
-          //   result.y.push(null);
-          // }
 
           return result;
         }

@@ -39,6 +39,16 @@
                     <span class="glyphicon glyphicon-stats my-glyph" ng-if="input.y && input.x" ng-click="inputs.glyphHandler(input, inputs.findMaxBounds(input))"></span>
                 </section>
             </li>
+            <li ng-repeat="input in inputs.source" class="near-glyph" ng-if="!input.y && !input.x">
+                <section class="content inline-flex" align="center">
+                    <span class="input input--manami flex-child" ng-class="{'input--filled': input.value !== ''}">
+                        <input class="input__field input__field--manami" type="{{input.type}}" id="{{input.id}}" ng-model="input.value" ng-change="input.onChange()"/>
+                        <label class="input__label input__label--manami" for="{{input.id}}">
+                            <span class="input__label-content input__label-content--manami" ng-bind="input.placeholder"></span>
+                        </label>
+                    </span>
+                </section>
+            </li>
         </ul>
     </section>
     <div class="hr" ng-if="inputs.index">
