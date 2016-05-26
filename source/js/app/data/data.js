@@ -55,7 +55,7 @@ var data;
         }
       },
       yByS: [{
-        label: 'new',
+        label: 'sin(x<sub>1</sub><sup>2</sup> + x<sub>2</sub><sup>2</sup>) * t<sup>2</sup>',
         class: 'en',
         type: 'radio',
         name: 'yByS',
